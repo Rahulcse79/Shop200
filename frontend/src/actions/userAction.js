@@ -46,16 +46,15 @@ import axios from 'axios';
 
 
 // OTP send 
-export const OTPSend = (email) => async (dispatch) => {
+export const OTPSend = (email, onSuccess) => async (dispatch) => {
     try {
-
         dispatch({ type: OTP_SEND_REQUEST });
 
         const config = {
             headers: {
                 "Content-Type": "application/json",
             },
-        }
+        };
 
         const { data } = await axios.post(
             '/api/v1/otp/send',
@@ -68,25 +67,26 @@ export const OTPSend = (email) => async (dispatch) => {
             payload: data.user,
         });
 
+        if (onSuccess) onSuccess();
+
     } catch (error) {
         dispatch({
             type: OTP_SEND_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };
 
 // Login User by OTP
-export const OTPloginUser = (email, OTP) => async (dispatch) => {
+export const OTPloginUser = (email, OTP, onSuccess) => async (dispatch) => {
     try {
-
         dispatch({ type: OTP_BASED_LOGIN_USER_REQUEST });
 
         const config = {
             headers: {
                 "Content-Type": "application/json",
             },
-        }
+        };
 
         const { data } = await axios.post(
             '/api/v1/otp/based/login',
@@ -99,10 +99,12 @@ export const OTPloginUser = (email, OTP) => async (dispatch) => {
             payload: data.user,
         });
 
+        if (onSuccess) onSuccess(); 
+
     } catch (error) {
         dispatch({
             type: OTP_BASED_LOGIN_USER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response?.data?.message || error.message,
         });
     }
 };

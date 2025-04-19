@@ -7,11 +7,13 @@ import { useSnackbar } from 'notistack';
 import BackdropLoader from '../Layouts/BackdropLoader';
 import MetaData from '../Layouts/MetaData';
 import FormSidebar from './FormSidebar';
+import { useNavigate } from "react-router-dom";
 
 const OTP = () => {
 
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
 
     const { error, message, loading } = useSelector((state) => state.forgotPassword);
 
@@ -22,12 +24,11 @@ const OTP = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.set("email", email);
-        formData.set("OTP", email);
-        dispatch(OTPloginUser(formData));
-        setEmail("");
-    }
+        dispatch(OTPloginUser(email, OTP, () => {
+            enqueueSnackbar("OTP Verified Successfully!", { variant: "success" });
+            navigate("/");
+        }));
+    };    
 
     useEffect(() => {
         if (error) {
@@ -55,19 +56,24 @@ const OTP = () => {
 
     const handleSendOTP = (e) => {
         e.preventDefault();
+
         if (timerShow) {
             alert(`Please wait... Time remaining: ${formatTime(timeLeft)}`);
             return;
         }
 
-        dispatch(OTPSend(email));
-        setTimerShow(true);
-        setTimeLeft(() => {
-            const fiveMinutesInSeconds = 2 * 60;
-            localStorage.setItem('timeLeft', fiveMinutesInSeconds);
-            return fiveMinutesInSeconds;
-        });
-    }
+        dispatch(OTPSend(email, () => {
+            setTimerShow(true);
+            setTimeLeft(() => {
+                const fiveMinutesInSeconds = 2 * 60;
+                localStorage.setItem('timeLeft', fiveMinutesInSeconds);
+                return fiveMinutesInSeconds;
+            });
+        
+            enqueueSnackbar("OTP sent successfully!", { variant: "success" });
+        }));
+
+    };
 
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);

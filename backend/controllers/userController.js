@@ -5,6 +5,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
+const { SendOTP, CheckOTP } = require('../utils/sendEmail');
 
 // Register User
 exports.registerUser = asyncErrorHandler(async (req, res, next) => {
@@ -49,6 +50,28 @@ exports.registerUser = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
+// OTP Based Login User
+exports.OTPBasedLoginUser = asyncErrorHandler(async (req, res, next) => {
+    const { email, OTP } = req.body;
+
+    if (!email ) {
+        return next(new ErrorHandler("Please enter both Email and OTP", 400));
+    }
+
+    const user = await User.findOne({ email});
+
+    if(!user) {
+        return next(new ErrorHandler("Invalid Email or user not found.", 401));
+    }
+
+    const isOTPMatched = await CheckOTP(email, OTP);
+
+    if(!isOTPMatched) {
+        return next(new ErrorHandler("Invalid OTP", 401));
+    }
+
+    sendToken(user, 201, res);
+});
 
 // Login User
 exports.loginUser = asyncErrorHandler(async (req, res, next) => {
@@ -71,6 +94,31 @@ exports.loginUser = asyncErrorHandler(async (req, res, next) => {
     }
 
     sendToken(user, 201, res);
+});
+
+// Send OTP
+exports.OTPSendUser = asyncErrorHandler(async (req, res, next) => {
+    const { email } = req.body;
+
+    if(!email ) {
+        return next(new ErrorHandler("Please Enter Email", 400));
+    }
+
+    const user = await User.findOne({ email});
+
+    if(!user) {
+        return next(new ErrorHandler("Invalid Email user not found", 401));
+    }
+
+    const GenerateOTP = await SendOTP( email );
+
+    if(!GenerateOTP) {
+        return next(new ErrorHandler("Invalid Email", 401));
+    }
+
+    res.status(200).json({
+        success: true
+    });
 });
 
 // Logout User
@@ -214,8 +262,6 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
         success: true,
     });
 });
-
-// ADMIN DASHBOARD
 
 // Get All Users --ADMIN
 exports.getAllUsers = asyncErrorHandler(async (req, res, next) => {

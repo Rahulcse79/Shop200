@@ -1,18 +1,40 @@
 const nodemailer = require('nodemailer');
 
+const MailHost = process.env.MAIL_HOST || "mail.coraltele.com";
+const MailPort = parseInt(process.env.MAIL_PORT, 10);
+const MailSecure = process.env.MAIL_SECURE === 'true';
+const MailUser = process.env.MAIL_USER || "mailgateway@coraltele.com";
+const MailPassword = process.env.MAIL_PASSWORD || "%$#Maig#$&7634";
+
+const otpStore = {};
+
+const deleteOldOtps = () => {
+    const currentTime = Date.now();
+    const expirationTime = 5 * 60 * 1000;
+
+    for (const email in otpStore) {
+        if (otpStore.hasOwnProperty(email)) {
+            const { timestamp } = otpStore[email];
+            if (currentTime - timestamp > expirationTime) {
+                delete otpStore[email];
+            }
+        }
+    }
+};
+
 const sendEmail = async (options) => {
     const transporter = nodemailer.createTransport({
-        host: process.env.MAIL_HOST || "mail.coraltele.com",
-        port: parseInt(process.env.MAIL_PORT, 10),
-        secure: process.env.MAIL_SECURE === 'true',
+        host: MailHost,
+        port: MailPort,
+        secure: MailSecure,
         auth: {
-            user: process.env.MAIL_USER || "mailgateway@coraltele.com",
-            pass: process.env.MAIL_PASSWORD || "%$#Maig#$&7634",
+            user: MailUser,
+            pass: MailPassword,
         },
     });
 
     const mailOptions = {
-        from: `"Your App" <${process.env.MAIL_USER || "mailgateway@coraltele.com"}>`,
+        from: `"Shop200" <${MailUser}>`,
         to: options.email,
         subject: options.subject,
         html: options.message,
@@ -21,9 +43,92 @@ const sendEmail = async (options) => {
     try {
         const info = await transporter.sendMail(mailOptions);
         console.log('Email sent:', info.messageId);
+        return true;
     } catch (error) {
         console.error('Error sending email:', error);
+        return false;
     }
 };
 
-module.exports = sendEmail;
+// OTP-only plain-text mail sender
+const SendmailTootp = async (username, MailSubject, MailText) => {
+    const transporter = nodemailer.createTransport({
+        host: MailHost,
+        port: MailPort,
+        secure: MailSecure,
+        auth: {
+            user: MailUser,
+            pass: MailPassword,
+        },
+    });
+
+    const mailOptions = {
+        from: MailUser,
+        to: username,
+        subject: MailSubject,
+        text: MailText,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        return true;
+    } catch (error) {
+        console.error('Failed to send OTP email:', error);
+        return false;
+    }
+};
+
+// Generate random 6-digit OTP
+const generateRandomOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+};
+
+// Main OTP send logic
+const SendOTP = async (email) => {
+
+    const otp = generateRandomOTP();
+    const MailSubject = "Your Shop200 OTP Code";
+    const MailText = `
+Dear User,
+
+Thank you for using Shop200. Your One-Time Password (OTP) is:
+
+${otp}
+
+This OTP is valid for 5 minutes. Please do not share it with anyone.
+
+If you did not request this OTP, you can ignore this message.
+
+Best regards,
+Shop200 Team
+  `;
+
+    const result = await SendmailTootp(email, MailSubject, MailText);
+    if (result) {
+        otpStore[email] = {
+            otp,
+            timestamp: Date.now(),
+        };
+        return true;
+    }
+
+    return false;
+};
+
+const CheckOTP = async (email, OTP) => {
+    const record = await otpStore[email];
+    if (record && record.otp === OTP) {
+        const now = Date.now();
+        const isExpired = now - record.timestamp > 5 * 60 * 1000;
+        if (!isExpired) {
+            return true;
+        }
+    }
+    return false;
+};
+
+module.exports = {
+    sendEmail,
+    SendOTP,
+    CheckOTP
+};
