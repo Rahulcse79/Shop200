@@ -18,7 +18,7 @@ const Cart = () => {
 
     return (
         <>
-            <MetaData title="Shopping Cart | Flipkart" />
+            <MetaData title="Shopping Cart | Shop200" />
             <main className="w-full mt-20">
 
                 {/* <!-- row --> */}

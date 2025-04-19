@@ -1,7 +1,7 @@
-# Flipkart - MERN
-Full-Stack Flipkart with Admin Dashboard & Paytm Payment Gateway.
+# Shop200 - MERN
+Full-Stack Shop200 with Admin Dashboard & Paytm Payment Gateway.
 
-[Visit Now](https://flipkartweb-mern.vercel.app) 🚀
+[Visit Now](https://Shop200web-mern.vercel.app) 🚀
 
 ## 🖥️ Tech Stack
 **Frontend:**

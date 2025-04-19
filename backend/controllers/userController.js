@@ -8,28 +8,47 @@ const cloudinary = require('cloudinary');
 
 // Register User
 exports.registerUser = asyncErrorHandler(async (req, res, next) => {
+    try {
+        // Validate required fields
+        const { name, email, gender, password, avatar } = req.body;
+        console.log(req.body);
 
-    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: "avatars",
-        width: 150,
-        crop: "scale",
-    });
+        if (!name || !email || !gender || !password || !avatar) {
+            console.warn("[REGISTER] Missing required fields");
+            return next(new ErrorHandler("All fields are required", 400));
+        }
 
-    const { name, email, gender, password } = req.body;
+        console.log("[REGISTER] Uploading avatar to Cloudinary...");
 
-    const user = await User.create({
-        name, 
-        email,
-        gender,
-        password,
-        avatar: {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-        },
-    });
+        const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+            folder: "avatars",
+            width: 150,
+            crop: "scale",
+        });
 
-    sendToken(user, 201, res);
+        console.log("[REGISTER] Avatar uploaded:", myCloud.secure_url);
+
+        const user = await User.create({
+            name,
+            email,
+            gender,
+            password,
+            avatar: {
+                public_id: myCloud.public_id,
+                url: myCloud.secure_url,
+            },
+        });
+
+        console.log("[REGISTER] New user created:", user.email);
+
+        sendToken(user, 201, res);
+
+    } catch (err) {
+        console.error("[REGISTER] Error occurred:", err);
+        return next(new ErrorHandler("User registration failed", 500));
+    }
 });
+
 
 // Login User
 exports.loginUser = asyncErrorHandler(async (req, res, next) => {

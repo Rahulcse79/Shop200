@@ -82,7 +82,7 @@ export const registerUser = (userData) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            '/api/v1/register',
+            'http://localhost:4000/api/v1/register',
             userData,
             config
         );

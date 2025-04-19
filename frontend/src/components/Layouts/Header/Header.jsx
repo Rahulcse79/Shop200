@@ -20,7 +20,7 @@ const Header = () => {
 
   return (
 
-    <header className="bg-primary-blue fixed top-0 py-2.5 w-full z-10">
+    <header className="bg-red-500 fixed top-0 py-2.5 w-full z-10">
 
       {/* <!-- navbar container --> */}
       <div className="w-full sm:w-9/12 px-1 sm:px-4 m-auto flex justify-between items-center relative">
@@ -28,9 +28,8 @@ const Header = () => {
         {/* <!-- logo & search container --> */}
         <div className="flex items-center flex-1">
           <Link className="h-7 mr-1 sm:mr-4" to="/">
-            <img draggable="false" className="h-full w-full object-contain" src={logo} alt="Flipkart Logo" />
+            <img draggable="false" className="h-full w-full object-contain" src={logo} alt="Shop200 Logo" />
           </Link>
-
           <Searchbar />
         </div>
         {/* <!-- logo & search container --> */}
