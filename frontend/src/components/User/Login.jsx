@@ -85,7 +85,10 @@ const Login = () => {
                                     {/* <!-- button container --> */}
                                     <div className="flex flex-col gap-2.5 mt-2 mb-32">
                                         <p className="text-xs text-primary-grey text-left">By continuing, you agree to Shop200's <a href="https://www.Shop200.com/pages/terms" className="text-primary-blue"> Terms of Use</a> and <a href="https://www.Shop200.com/pages/privacypolicy" className="text-primary-blue"> Privacy Policy.</a></p>
-                                        <button type="submit" className="text-white py-3 w-full bg-primary-orange shadow hover:shadow-lg rounded-sm font-medium">Login</button>
+                                        <button type="submit" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">
+                                            Login
+                                        </button>
+                                        <Link to="/otp" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">OTP based login</Link>
                                         <Link to="/password/forgot" className="hover:bg-gray-50 text-primary-blue text-center py-3 w-full shadow border rounded-sm font-medium">Forgot Password?</Link>
                                     </div>
                                     {/* <!-- button container --> */}

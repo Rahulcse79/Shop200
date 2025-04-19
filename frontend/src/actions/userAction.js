@@ -35,9 +35,78 @@ import {
     ALL_USERS_FAIL,
     ALL_USERS_SUCCESS,
     ALL_USERS_REQUEST,
+    OTP_SEND_REQUEST,
+    OTP_SEND_SUCCESS,
+    OTP_SEND_FAIL,
+    OTP_BASED_LOGIN_USER_FAIL,
+    OTP_BASED_LOGIN_USER_REQUEST,
+    OTP_BASED_LOGIN_USER_SUCCESS
 } from '../constants/userConstants';
 import axios from 'axios';
 
+
+// OTP send 
+export const OTPSend = (email) => async (dispatch) => {
+    try {
+
+        dispatch({ type: OTP_SEND_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+
+        const { data } = await axios.post(
+            '/api/v1/otp/send',
+            { email },
+            config
+        );
+
+        dispatch({
+            type: OTP_SEND_SUCCESS,
+            payload: data.user,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: OTP_SEND_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+
+// Login User by OTP
+export const OTPloginUser = (email, OTP) => async (dispatch) => {
+    try {
+
+        dispatch({ type: OTP_BASED_LOGIN_USER_REQUEST });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+
+        const { data } = await axios.post(
+            '/api/v1/otp/based/login',
+            { email, OTP },
+            config
+        );
+
+        dispatch({
+            type: OTP_BASED_LOGIN_USER_SUCCESS,
+            payload: data.user,
+        });
+
+    } catch (error) {
+        dispatch({
+            type: OTP_BASED_LOGIN_USER_FAIL,
+            payload: error.response.data.message,
+        });
+    }
+};
+ 
 // Login User
 export const loginUser = (email, password) => async (dispatch) => {
     try {

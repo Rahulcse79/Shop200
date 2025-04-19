@@ -41,6 +41,7 @@ import GiftCards from "./components/Temp_pages/GiftCards"
 import HelpCenter from "./components/Temp_pages/HelpCenter";
 import Advertise from "./components/Temp_pages/Advertise";
 import SellOnShop200 from "./components/Temp_pages/SellOnShop200";
+import OTP from "./components/User/OTP";
 
 function App() {
 
@@ -167,6 +168,8 @@ function App() {
         } ></Route>
 
         <Route path="/password/forgot" element={<ForgotPassword />} />
+
+        <Route path="/OTP" element={<OTP />} />
 
         <Route path="/password/reset/:token" element={<ResetPassword />} />
 
