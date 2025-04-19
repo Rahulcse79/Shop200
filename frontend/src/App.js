@@ -36,6 +36,11 @@ import UpdateUser from './components/Admin/UpdateUser';
 import ReviewsTable from './components/Admin/ReviewsTable';
 import Wishlist from './components/Wishlist/Wishlist';
 import NotFound from './components/NotFound';
+import DownloadAppPage from "./components/Temp_pages/DownloadAPPPage";
+import GiftCards from "./components/Temp_pages/GiftCards"
+import HelpCenter from "./components/Temp_pages/HelpCenter";
+import Advertise from "./components/Temp_pages/Advertise";
+import SellOnShop200 from "./components/Temp_pages/SellOnShop200";
 
 function App() {
 
@@ -85,6 +90,12 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/downloadapp" element={<DownloadAppPage />} />
+        <Route path="/giftCards" element={<GiftCards />} />
+        <Route path="/helpCenter" element={<HelpCenter />} />
+        <Route path="/advertise" element={<Advertise />} />
+        <Route path="/SellOnShop200" element={<SellOnShop200 />} />
 
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/products" element={<Products />} />

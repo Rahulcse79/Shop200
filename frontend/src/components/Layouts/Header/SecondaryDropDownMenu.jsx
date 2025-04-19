@@ -10,27 +10,27 @@ const SecondaryDropDownMenu = () => {
         {
             title: "Notification Preferences",
             icon: <NotificationsIcon sx={{ fontSize: "18px" }} />,
-            redirect: "https://www.Shop200.com/communication-preferences/push",
+            redirect: "notification",
         },
         {
             title: "Sell on Shop200",
             icon: <BusinessCenterIcon sx={{ fontSize: "18px" }} />,
-            redirect: "https://seller.Shop200.com/sell-online",
+            redirect: "/SellOnShop200",
         },
         {
             title: "24x7 Customer Care",
             icon: <LiveHelpIcon sx={{ fontSize: "18px" }} />,
-            redirect: "https://www.Shop200.com/helpcentre",
+            redirect: "/helpCenter",
         },
         {
             title: "Advertise",
             icon: <TrendingUpIcon sx={{ fontSize: "18px" }} />,
-            redirect: "https://advertising.Shop200.com",
+            redirect: "/advertise",
         },
         {
             title: "Download App",
             icon: <DownloadIcon sx={{ fontSize: "18px" }} />,
-            redirect: "https://www.Shop200.com/mobile-apps",
+            redirect: "/downloadapp",
         },
     ]
 

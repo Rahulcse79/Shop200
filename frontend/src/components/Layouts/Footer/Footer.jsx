@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import WorkIcon from '@mui/icons-material/Work';
 import StarsIcon from '@mui/icons-material/Stars';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import HelpIcon from '@mui/icons-material/Help';
 import paymentMethods from '../../../assets/images/payment-methods.svg';
 import { useLocation } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const footerLinks = [
   {
@@ -113,6 +115,7 @@ const Footer = () => {
 
   const location = useLocation();
   const [adminRoute, setAdminRoute] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setAdminRoute(location.pathname.split("/", 2).includes("admin"))
@@ -168,20 +171,31 @@ const Footer = () => {
           {/* <!-- footer ends --> */}
 
           <div className="px-16 py-6 w-full bg-primary-darkBlue hidden sm:flex justify-between items-center text-sm text-white">
-            <a href="https://seller.Shop200.com/sell-online" target="_blank" rel="noreferrer" className="flex items-center gap-2">
-              <span className="text-yellow-400"><WorkIcon sx={{ fontSize: "20px" }} /></span> Sell On Shop200
-            </a>
-            <a href="https://brands.Shop200.com" target="_blank" rel="noreferrer" className="flex items-center gap-2">
-              <span className="text-yellow-400"><StarsIcon sx={{ fontSize: "20px" }} /></span> Advertise
-            </a>
-            <a href="https://www.Shop200.com/the-gift-card-store" rel="noreferrer" target="_blank" className="flex items-center gap-2">
-              <span className="text-yellow-400"><CardGiftcardIcon sx={{ fontSize: "20px" }} /></span> Gift Cards
-            </a>
-            <a href="https://www.Shop200.com/helpcentre" target="_blank" rel="noreferrer" className="flex items-center gap-2">
-              <span className="text-yellow-400"><HelpIcon sx={{ fontSize: "20px" }} /></span> Help Center
-            </a>
-
-            <span>&copy; 2007-{new Date().getFullYear()} Shop200.com</span>
+            <Link to="/SellOnShop200" className="flex items-center gap-2">
+              <span className="text-yellow-400">
+                <CardGiftcardIcon sx={{ fontSize: "20px" }} />
+              </span>
+              Sell On Shop200
+            </Link>
+            <Link to="/advertise" className="flex items-center gap-2">
+              <span className="text-yellow-400">
+                <CardGiftcardIcon sx={{ fontSize: "20px" }} />
+              </span>
+              Advertise
+            </Link>
+            <Link to="/giftCards" className="flex items-center gap-2">
+              <span className="text-yellow-400">
+                <CardGiftcardIcon sx={{ fontSize: "20px" }} />
+              </span>
+              Gift Cards
+            </Link>
+            <Link to="/helpCenter" className="flex items-center gap-2">
+              <span className="text-yellow-400">
+                <CardGiftcardIcon sx={{ fontSize: "20px" }} />
+              </span>
+              Help center
+            </Link>
+            <span>&copy; 2025-{new Date().getFullYear()} Shop200.com</span>
             <img draggable="false" src={paymentMethods} alt="Card Payment" />
           </div>
         </>
