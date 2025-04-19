@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import BackdropLoader from '../Layouts/BackdropLoader';
 import MetaData from '../Layouts/MetaData';
 import FormSidebar from './FormSidebar';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const OTP = () => {
 
@@ -20,15 +20,28 @@ const OTP = () => {
     const [email, setEmail] = useState("");
     const [OTP, setOTP] = useState("");
     const [timerShow, setTimerShow] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(localStorage.getItem('timeLeft') ? parseInt(localStorage.getItem('timeLeft')) : 60);
+    const [timeLeft, setTimeLeft] = useState(localStorage.getItem('timeLeft') ? parseInt(localStorage.getItem('timeLeft')) : 1);
+    const { isAuthenticated } = useSelector((state) => state.user);
+    const location = useLocation();
+    const redirect = location.search ? location.search.split("=")[1] : "account";
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(OTPloginUser(email, OTP, () => {
-            enqueueSnackbar("OTP Verified Successfully!", { variant: "success" });
-            navigate("/");
-        }));
-    };    
+
+        dispatch(OTPloginUser(
+            email,
+            OTP,
+            () => {
+                enqueueSnackbar("OTP Verified Successfully!", { variant: "success" });
+                navigate("/");
+                window.location.reload();
+            },
+            (errorMessage) => {
+                enqueueSnackbar(errorMessage || "OTP Verification Failed!", { variant: "error" });
+            }
+        ));
+    };
+
 
     useEffect(() => {
         if (error) {
@@ -38,7 +51,15 @@ const OTP = () => {
         if (message) {
             enqueueSnackbar(message, { variant: "success" });
         }
+        if (isAuthenticated) {
+            navigate(`/${redirect}`)
+        }
+        console.log(timeLeft)
+        if (timeLeft > 1 && timerShow === false) {
+            setTimerShow(true)
+        }
         if (!timerShow) return;
+        console.log("come")
         const timerInterval = setInterval(() => {
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
@@ -52,27 +73,30 @@ const OTP = () => {
             }
         }, 2000);
         return () => clearInterval(timerInterval);
-    }, [dispatch, error, message, enqueueSnackbar, timerShow, timeLeft]);
+    }, [dispatch, error, message, enqueueSnackbar, timerShow, timeLeft, isAuthenticated, navigate, redirect]);
 
     const handleSendOTP = (e) => {
         e.preventDefault();
-
         if (timerShow) {
             alert(`Please wait... Time remaining: ${formatTime(timeLeft)}`);
             return;
         }
+        dispatch(OTPSend(
+            email,
+            () => {
+                setTimerShow(true);
+                setTimeLeft(() => {
+                    const fiveMinutesInSeconds = 2 * 60;
+                    localStorage.setItem('timeLeft', fiveMinutesInSeconds);
+                    return fiveMinutesInSeconds;
+                });
 
-        dispatch(OTPSend(email, () => {
-            setTimerShow(true);
-            setTimeLeft(() => {
-                const fiveMinutesInSeconds = 2 * 60;
-                localStorage.setItem('timeLeft', fiveMinutesInSeconds);
-                return fiveMinutesInSeconds;
-            });
-        
-            enqueueSnackbar("OTP sent successfully!", { variant: "success" });
-        }));
-
+                enqueueSnackbar("OTP sent successfully!", { variant: "success" });
+            },
+            (errorMessage) => {
+                enqueueSnackbar(errorMessage || "Failed to send OTP!", { variant: "error" });
+            }
+        ));
     };
 
     const formatTime = (seconds) => {

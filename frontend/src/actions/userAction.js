@@ -46,7 +46,7 @@ import axios from 'axios';
 
 
 // OTP send 
-export const OTPSend = (email, onSuccess) => async (dispatch) => {
+export const OTPSend = (email, onSuccess, onError) => async (dispatch) => {
     try {
         dispatch({ type: OTP_SEND_REQUEST });
 
@@ -74,11 +74,12 @@ export const OTPSend = (email, onSuccess) => async (dispatch) => {
             type: OTP_SEND_FAIL,
             payload: error.response?.data?.message || error.message,
         });
+        if (onError) onError(error.response?.data?.message);
     }
 };
 
 // Login User by OTP
-export const OTPloginUser = (email, OTP, onSuccess) => async (dispatch) => {
+export const OTPloginUser = (email, OTP, onSuccess, onError) => async (dispatch) => {
     try {
         dispatch({ type: OTP_BASED_LOGIN_USER_REQUEST });
 
@@ -106,6 +107,8 @@ export const OTPloginUser = (email, OTP, onSuccess) => async (dispatch) => {
             type: OTP_BASED_LOGIN_USER_FAIL,
             payload: error.response?.data?.message || error.message,
         });
+
+        if (onError) onError(error.response?.data?.message);
     }
 };
  
