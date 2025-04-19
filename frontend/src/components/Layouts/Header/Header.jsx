@@ -37,23 +37,47 @@ const Header = () => {
         {/* <!-- right navs --> */}
         <div className="flex items-center justify-between ml-1 sm:ml-0 gap-0.5 sm:gap-7 relative">
 
-          {isAuthenticated === false ?
-            <Link to="/login" className="px-3 sm:px-9 py-0.5 text-primary-blue bg-white border font-medium rounded-sm cursor-pointer">Login</Link>
-            :
-            (
-              <span className="userDropDown flex items-center text-white font-medium gap-1 cursor-pointer" onClick={() => setTogglePrimaryDropDown(!togglePrimaryDropDown)}>{user.name && user.name.split(" ", 1)}
-                <span>{togglePrimaryDropDown ? <ExpandLessIcon sx={{ fontSize: "16px" }} /> : <ExpandMoreIcon sx={{ fontSize: "16px" }} />}</span>
+          {!isAuthenticated ? (
+            <Link
+              to="/login"
+              className="px-3 sm:px-9 py-0.5 text-primary-blue bg-white border font-medium rounded-sm cursor-pointer"
+            >
+              Login
+            </Link>
+          ) : (
+            <div
+              className="relative"
+              onMouseEnter={() => setTogglePrimaryDropDown(true)}
+              onMouseLeave={() => setTogglePrimaryDropDown(false)}
+            >
+              <span className="userDropDown flex items-center text-white font-medium gap-1 cursor-pointer">
+                {user.name && user.name.split(" ", 1)}
+                <span>
+                  {togglePrimaryDropDown ? (
+                    <ExpandLessIcon sx={{ fontSize: "16px" }} />
+                  ) : (
+                    <ExpandMoreIcon sx={{ fontSize: "16px" }} />
+                  )}
+                </span>
               </span>
-            )
-          }
 
-          {togglePrimaryDropDown && <PrimaryDropDownMenu setTogglePrimaryDropDown={setTogglePrimaryDropDown} user={user} />}
+              {togglePrimaryDropDown && (
+                <PrimaryDropDownMenu
+                  setTogglePrimaryDropDown={setTogglePrimaryDropDown}
+                  user={user}
+                />
+              )}
+            </div>
+          )}
 
-          <span className="moreDropDown hidden sm:flex items-center text-white font-medium gap-1 cursor-pointer" onClick={() => setToggleSecondaryDropDown(!toggleSecondaryDropDown)}>More
-            <span>{toggleSecondaryDropDown ? <ExpandLessIcon sx={{ fontSize: "16px" }} /> : <ExpandMoreIcon sx={{ fontSize: "16px" }} />}</span>
-          </span>
-
-          {toggleSecondaryDropDown && <SecondaryDropDownMenu />}
+          <div
+            onMouseEnter={() => setToggleSecondaryDropDown(true)}
+            onMouseLeave={() => setToggleSecondaryDropDown(false)} >
+            <span className="moreDropDown hidden sm:flex items-center text-white font-medium gap-1 cursor-pointer">More
+              <span>{toggleSecondaryDropDown ? <ExpandLessIcon sx={{ fontSize: "16px" }} /> : <ExpandMoreIcon sx={{ fontSize: "16px" }} />}</span>
+            </span>
+            {toggleSecondaryDropDown && <SecondaryDropDownMenu />}
+          </div>
 
           <Link to="/cart" className="flex items-center text-white font-medium gap-2 relative">
             <span><ShoppingCartIcon /></span>

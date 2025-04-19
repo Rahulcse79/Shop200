@@ -19,7 +19,7 @@ const OTP = () => {
 
     const [email, setEmail] = useState("");
     const [OTP, setOTP] = useState("");
-    const [timerShow, setTimerShow] = useState(true);
+    const [timerShow, setTimerShow] = useState(false);
     const [timeLeft, setTimeLeft] = useState(localStorage.getItem('timeLeft') ? parseInt(localStorage.getItem('timeLeft')) : 60);
 
     const handleSubmit = (e) => {
