@@ -30,7 +30,7 @@ const Register = () => {
 
     const { name, email, gender, password, cpassword } = user;
 
-    const [avatar, setAvatar] = useState();
+    const [avatar, setAvatar] = useState(null);
     const [avatarPreview, setAvatarPreview] = useState("preview.png");
 
     const handleRegister = (e) => {
