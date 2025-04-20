@@ -97,8 +97,8 @@ const Register = () => {
                 <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-lg">
 
                     <FormSidebar
-                        title="Looks like you're new here!"
-                        tag="Sign up with your mobile number to get started"
+                        title="Sign up here!"
+                        tag="Sign up with your email number to get started"
                     />
 
                     {/* <!-- signup column --> */}
@@ -192,8 +192,8 @@ const Register = () => {
                                         Choose File
                                     </label>
                                 </div>
-                                <button type="submit" className="text-white py-3 w-full bg-primary-orange shadow hover:shadow-lg rounded-sm font-medium">Signup</button>
-                                <Link to="/login" className="hover:bg-gray-50 text-primary-blue text-center py-3 w-full shadow border rounded-sm font-medium">Existing User? Log in</Link>
+                                <button type="submit" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Signup</button>
+                                <button onClick={ () => navigate('/login') } className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Existing User? Log in</button>
                             </div>
 
                         </form>

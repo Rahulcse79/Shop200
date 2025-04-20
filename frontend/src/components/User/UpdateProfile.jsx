@@ -20,6 +20,7 @@ const UpdateProfile = () => {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
     const [gender, setGender] = useState("");
     const [avatar, setAvatar] = useState("");
     const [avatarPreview, setAvatarPreview] = useState("");
@@ -80,8 +81,8 @@ const UpdateProfile = () => {
                 <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-lg">
                     {/* <!-- sidebar column  --> */}
                     <div className="loginSidebar bg-primary-blue px-9 py-10 hidden sm:flex flex-col gap-4 w-2/5">
-                        <h1 className="font-medium text-white text-3xl">Looks like you're new here!</h1>
-                        <p className="text-gray-200 text-lg pr-2">Sign up with your mobile number to get started</p>
+                        <h1 className="font-medium text-white text-3xl">Update Profile !</h1>
+                        <p className="text-gray-200 text-lg pr-2">Your journey starts with you — update your profile and let the world see your best version !</p>
                     </div>
                     {/* <!-- sidebar column  --> */}
 
