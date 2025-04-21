@@ -39,7 +39,7 @@ import NotFound from './components/NotFound';
 import DownloadAppPage from "./components/Temp_pages/DownloadAPPPage";
 import GiftCards from "./components/Temp_pages/GiftCards"
 import HelpCenter from "./components/Temp_pages/HelpCenter";
-import SellOnShop200 from "./components/Temp_pages/SellOnShop200";
+import SellOnShop200 from "./components/Seller/SellOnShop200";
 import OTP from "./components/User/OTP";
 
 function App() {
