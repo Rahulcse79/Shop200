@@ -177,12 +177,6 @@ const Footer = () => {
               </span>
               Sell On Shop200
             </Link>
-            <Link to="/advertise" className="flex items-center gap-2">
-              <span className="text-red-400">
-                <CardGiftcardIcon sx={{ fontSize: "20px" }} />
-              </span>
-              Advertise
-            </Link>
             <Link to="/giftCards" className="flex items-center gap-2">
               <span className="text-red-400">
                 <CardGiftcardIcon sx={{ fontSize: "20px" }} />

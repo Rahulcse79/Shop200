@@ -39,7 +39,6 @@ import NotFound from './components/NotFound';
 import DownloadAppPage from "./components/Temp_pages/DownloadAPPPage";
 import GiftCards from "./components/Temp_pages/GiftCards"
 import HelpCenter from "./components/Temp_pages/HelpCenter";
-import Advertise from "./components/Temp_pages/Advertise";
 import SellOnShop200 from "./components/Temp_pages/SellOnShop200";
 import OTP from "./components/User/OTP";
 
@@ -95,7 +94,6 @@ function App() {
         <Route path="/downloadapp" element={<DownloadAppPage />} />
         <Route path="/giftCards" element={<GiftCards />} />
         <Route path="/helpCenter" element={<HelpCenter />} />
-        <Route path="/advertise" element={<Advertise />} />
         <Route path="/SellOnShop200" element={<SellOnShop200 />} />
 
         <Route path="/product/:id" element={<ProductDetails />} />

@@ -23,11 +23,6 @@ const SecondaryDropDownMenu = () => {
             redirect: "/helpCenter",
         },
         {
-            title: "Advertise",
-            icon: <TrendingUpIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/advertise",
-        },
-        {
             title: "Download App",
             icon: <DownloadIcon sx={{ fontSize: "18px" }} />,
             redirect: "/downloadapp",
