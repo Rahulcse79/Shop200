@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import MetaData from '../Layouts/MetaData';
 import Loader from '../Layouts/Loader';
 import MinCategory from '../Layouts/MinCategory';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import Images from  '../../assets/images/image.png';
+import Images from '../../assets/images/image.png';
 
 const HelpCenter = () => {
 
     const navigate = useNavigate();
 
-    const { user, loading, isAuthenticated } = useSelector(state => state.user);
+    const { loading, isAuthenticated } = useSelector(state => state.user);
     const [showAll, setShowAll] = useState(false);
     const [issueItems, setIssueItems] = useState([
         {
@@ -125,13 +125,6 @@ const HelpCenter = () => {
         { id: 2, title: "I want help with returns & refunds", description: "Manage and track returns" }
     ]);
 
-    useEffect(() => {
-        if (isAuthenticated === false) {
-            // navigate("/login")
-        }
-    }, [isAuthenticated, navigate]);
-
-
     const itemsToShow = showAll ? issueItems : issueItems.slice(0, 3);
 
     return (
@@ -159,99 +152,102 @@ const HelpCenter = () => {
                         </div>
 
                         <div className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
-                            <Sidebar activeTab={"help-center"} />
-                            <div className="flex-1 overflow-hidden shadow bg-white rounded-2xl">
-                                <div className="flex flex-col justify-between h-full m-4 sm:mx-8 sm:my-6">
+                            <Sidebar />
 
-                                    {isAuthenticated ? (
-                                        <div className="flex flex-col gap-5 items-start">
-                                            <span className="font-medium text-2xl">Which item are you facing an issue with?</span>
-
-                                            <div className="flex flex-col gap-6 w-full mt-2">
-                                                {itemsToShow.length > 0 ? (
-                                                    itemsToShow.map((item) => (
-                                                        <div
-                                                            key={item.id}
-                                                            className="flex gap-4 items-center border-b pb-3 cursor-pointer"
-                                                        >
-                                                            <img
-                                                                src={item.image}
-                                                                alt={item.name}
-                                                                className="w-20 h-20 object-cover rounded-lg shadow"
-                                                            />
-                                                            <div className="flex items-center gap-2">
-                                                                <div className="flex flex-col">
-                                                                    <span className="font-medium text-lg text-gray-800">{item.name}</span>
-                                                                    <div className="flex items-center gap-2 mt-1">
-                                                                        <span
-                                                                            className={`w-3 h-3 rounded-full ${item.status === "Delivered" ? "bg-green-500" : "bg-red-500"}`}
-                                                                        ></span>
-                                                                        <span className="text-sm text-gray-500">
-                                                                            {item.status === "Delivered"
-                                                                                ? `Delivered on ${item.deliveredDate}`
-                                                                                : "Not Delivered"}
-                                                                        </span>
+                            <div className="flex-1 flex flex-col gap-6">
+                                <div className="overflow-hidden shadow bg-white rounded-2xl">
+                                    <div className="flex flex-col justify-between h-full m-4 sm:mx-8 sm:my-6">
+                                        {isAuthenticated ? (
+                                            <div className="flex flex-col gap-5 items-start">
+                                                <span className="font-medium text-2xl">Which item are you facing an issue with?</span>
+                                                <div className="flex flex-col gap-6 w-full mt-2">
+                                                    {itemsToShow.length > 0 ? (
+                                                        itemsToShow.map((item) => (
+                                                            <div
+                                                                key={item.id}
+                                                                className="flex gap-4 items-center border-b pb-3 cursor-pointer"
+                                                            >
+                                                                <img
+                                                                    src={item.image}
+                                                                    alt={item.name}
+                                                                    className="w-20 h-20 object-cover rounded-lg shadow"
+                                                                />
+                                                                <div className="flex items-center gap-2">
+                                                                    <div className="flex flex-col">
+                                                                        <span className="font-medium text-lg text-gray-800">{item.name}</span>
+                                                                        <div className="flex items-center gap-2 mt-1">
+                                                                            <span
+                                                                                className={`w-3 h-3 rounded-full ${item.status === "Delivered" ? "bg-green-500" : "bg-red-500"}`}
+                                                                            ></span>
+                                                                            <span className="text-sm text-gray-500">
+                                                                                {item.status === "Delivered"
+                                                                                    ? `Delivered on ${item.deliveredDate}`
+                                                                                    : "Not Delivered"}
+                                                                            </span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    ))
-                                                ) : (
-                                                    <p className="text-gray-500">No items found.</p>
-                                                )}
+                                                        ))
+                                                    ) : (
+                                                        <p className="text-gray-500">No items found.</p>
+                                                    )}
 
-                                                <button
-                                                    onClick={() => setShowAll(!showAll)}
-                                                    className="text-blue-500 hover:underline mt-4"
-                                                >
-                                                    {showAll ? "View Less" : "View More"}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="flex flex-col justify-between items-center text-center h-full w-full">
-                                            <p className="text-lg text-gray-700 mt-10">Login to get help with your recent orders and issues</p>
-                                            <img
-                                                src={Images}
-                                                alt="Help Center Illustration"
-                                                className="my-8 w-40 h-40 object-contain"
-                                            />
-                                            <div className="w-full flex justify-center mb-[60px]">
-                                                <button
-                                                    type="button"
-                                                    className="text-white py-3 px-10 bg-red-600 shadow hover:shadow-lg rounded font-semibold text-base"
-                                                    onClick={() => navigate("/login")}
-                                                >
-                                                    Log in
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
-                            <div className="flex-1 overflow-hidden shadow bg-white rounded-2xl">
-                                <div className="flex flex-col gap-12 m-4 sm:mx-8 sm:my-6">
-                                    <div className="flex flex-col gap-5 items-start">
-                                        <span className="font-medium text-2xl">What issue are you facing?</span>
-                                        <div className="flex flex-col gap-4 w-full">
-                                            {issues.map((item) => (
-                                                <div
-                                                    key={item.id}
-                                                    className="flex gap-4 items-center border-b pb-3 cursor-pointer"
-                                                    onClick={() => navigate('/')}
-                                                >
-                                                    <span className="font-medium text-lg">{item.title}</span>
-                                                    <span className="text-sm text-gray-500">{item.description}</span>
+                                                    <button
+                                                        onClick={() => setShowAll(!showAll)}
+                                                        className="text-blue-500 hover:underline mt-4"
+                                                    >
+                                                        {showAll ? "View Less" : "View More"}
+                                                    </button>
                                                 </div>
-                                            ))}
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-col justify-between items-center text-center h-full w-full">
+                                                <p className="text-lg text-gray-700 mt-10">
+                                                    Login to get help with your recent orders and issues
+                                                </p>
+                                                <img
+                                                    src={Images}
+                                                    alt="Help Center Illustration"
+                                                    className="my-8 w-40 h-40 object-contain"
+                                                />
+                                                <div className="w-full flex justify-center mb-[60px]">
+                                                    <button
+                                                        type="button"
+                                                        className="text-white py-3 px-10 bg-red-600 shadow hover:shadow-lg rounded font-semibold text-base"
+                                                        onClick={() => navigate("/login")}
+                                                    >
+                                                        Log in
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="overflow-hidden shadow bg-white rounded-2xl">
+                                    <div className="flex flex-col gap-12 m-4 sm:mx-8 sm:my-6">
+                                        <div className="flex flex-col gap-5 items-start">
+                                            <span className="font-medium text-2xl">What issue are you facing?</span>
+                                            <div className="flex flex-col gap-4 w-full">
+                                                {issues.map((item) => (
+                                                    <div
+                                                        key={item.id}
+                                                        className="flex gap-4 items-center border-b pb-3 cursor-pointer"
+                                                        onClick={() => navigate('/')}
+                                                    >
+                                                        <span className="font-medium text-lg">{item.title}</span>
+                                                        <span className="text-sm text-gray-500">{item.description}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+
 
                         <div className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
                             <div className="flex-1 overflow-hidden shadow bg-white rounded-2xl">
