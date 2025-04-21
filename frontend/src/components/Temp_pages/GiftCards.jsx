@@ -36,7 +36,7 @@ const GiftCards = () => {
 
     return (
         <>
-            <MetaData title="Help Center - Gift Items" />
+            <MetaData title="Gift Cards" />
             {loading ? <Loader /> :
                 <>
                     <MinCategory />

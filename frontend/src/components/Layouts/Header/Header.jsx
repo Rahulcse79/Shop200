@@ -70,6 +70,15 @@ const Header = () => {
             </div>
           )}
 
+          <div>
+          <Link
+              to="/SellOnShop200"
+              className="moreDropDown hidden sm:flex items-center text-white font-medium gap-1 cursor-pointer"
+            >
+              Become a seller
+            </Link>
+          </div>
+
           <div
             onMouseEnter={() => setToggleSecondaryDropDown(true)}
             onMouseLeave={() => setToggleSecondaryDropDown(false)} >
