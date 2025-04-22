@@ -38,3 +38,13 @@ exports.authorizeRoles = (...roles) => {
         next();
     }
 }
+
+exports.authorizeRolesForSeller = (...roles) => {
+    return (req, res, next) => {
+
+        if (!roles.includes(req.seller.role)) {
+            return next(new ErrorHandler(`Role: ${req.seller.role} is not allowed`, 403));
+        }
+        next();
+    }
+}

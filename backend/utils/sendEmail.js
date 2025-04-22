@@ -6,21 +6,37 @@ const MailSecure = process.env.MAIL_SECURE === 'true';
 const MailUser = process.env.MAIL_USER || "mailgateway@coraltele.com";
 const MailPassword = process.env.MAIL_PASSWORD || "%$#Maig#$&7634";
 
-const otpStore = {};
+const otpStoreUser = {};
+const otpStoreSeller = {};
 
-const deleteOldOtps = () => {
+const deleteOldOTPUser = () => {
     const currentTime = Date.now();
     const expirationTime = 5 * 60 * 1000;
 
-    for (const email in otpStore) {
-        if (otpStore.hasOwnProperty(email)) {
-            const { timestamp } = otpStore[email];
+    for (const email in otpStoreUser) {
+        if (otpStoreUser.hasOwnProperty(email)) {
+            const { timestamp } = otpStoreUser[email];
             if (currentTime - timestamp > expirationTime) {
-                delete otpStore[email];
+                delete otpStoreUser[email];
             }
         }
     }
 };
+
+const deleteOldOTPSELLER = () => {
+    const currentTime = Date.now();
+    const expirationTime = 5 * 60 * 1000;
+
+    for (const email in otpStoreSeller) {
+        if (otpStoreSeller.hasOwnProperty(email)) {
+            const { timestamp } = otpStoreSeller[email];
+            if (currentTime - timestamp > expirationTime) {
+                delete otpStoreSeller[email];
+            }
+        }
+    }
+};
+
 
 const sendEmail = async (options) => {
     const transporter = nodemailer.createTransport({
@@ -84,12 +100,12 @@ const generateRandomOTP = () => {
 };
 
 // Main OTP send logic
-const SendOTP = async (email) => {
+const SendOTP = async (email, UseFor) => {
 
     const otp = generateRandomOTP();
     const MailSubject = "Your Shop200 OTP Code";
     const MailText = `
-Dear User,
+Dear ${UseFor},
 
 Thank you for using Shop200. Your One-Time Password (OTP) is:
 
@@ -105,7 +121,7 @@ Shop200 Team
 
     const result = await SendmailTootp(email, MailSubject, MailText);
     if (result) {
-        otpStore[email] = {
+        otpStoreUser[email] = {
             otp,
             timestamp: Date.now(),
         };
@@ -115,8 +131,20 @@ Shop200 Team
     return false;
 };
 
-const CheckOTP = async (email, OTP) => {
-    const record = await otpStore[email];
+const CheckOTPUser = async (email, OTP) => {
+    const record = await otpStoreUser[email];
+    if (record && record.otp === OTP) {
+        const now = Date.now();
+        const isExpired = now - record.timestamp > 5 * 60 * 1000;
+        if (!isExpired) {
+            return true;
+        }
+    }
+    return false;
+};
+
+const CheckOTPSeller = async (email, OTP) => {
+    const record = await otpStoreSeller[email];
     if (record && record.otp === OTP) {
         const now = Date.now();
         const isExpired = now - record.timestamp > 5 * 60 * 1000;
@@ -130,5 +158,7 @@ const CheckOTP = async (email, OTP) => {
 module.exports = {
     sendEmail,
     SendOTP,
-    CheckOTP
+    CheckOTPUser,
+    CheckOTPSeller,
+    CheckOTPSeller
 };

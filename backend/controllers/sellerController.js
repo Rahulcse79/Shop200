@@ -2,12 +2,9 @@ const Seller = require('../models/sellerModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
 const { sendSellerToken } = require('../utils/sendToken');
 const ErrorHandler = require('../utils/errorHandler');
-const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
-const { SendOTP, CheckOTP } = require('../utils/sendEmail');
-
-
+const { sendEmail, SendOTP, CheckOTPSeller } = require('../utils/sendEmail');
 
 // Register Seller
 exports.registerSeller = asyncErrorHandler(async (req, res, next) => {
@@ -51,6 +48,29 @@ exports.registerSeller = asyncErrorHandler(async (req, res, next) => {
     }
 });
 
+// OTP Based Login seller
+exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
+    const { email, OTP } = req.body;
+
+    if (!email ) {
+        return next(new ErrorHandler("Please enter both Email and OTP", 400));
+    }
+
+    const seller = await Seller.findOne({ email});
+
+    if(!seller) {
+        return next(new ErrorHandler("Invalid Email or seller not found.", 401));
+    }
+
+    const isOTPMatched = await CheckOTPSeller(email, OTP);
+
+    if(!isOTPMatched) {
+        return next(new ErrorHandler("Invalid OTP", 401));
+    }
+
+    sendToken(seller, 201, res);
+});
+
 // Login Seller
 exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body;
@@ -72,4 +92,231 @@ exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     }
 
     sendSellerToken(seller, 201, res);
+});
+
+// Send OTP
+exports.OTPSendSeller = asyncErrorHandler(async (req, res, next) => {
+    const { email } = req.body;
+
+    if(!email ) {
+        return next(new ErrorHandler("Please Enter Email", 400));
+    }
+
+    const seller = await Seller.findOne({ email});
+
+    if(!seller) {
+        return next(new ErrorHandler("Invalid Email seller not found", 401));
+    }
+
+    const GenerateOTP = await SendOTP( email );
+
+    if(!GenerateOTP) {
+        return next(new ErrorHandler("Invalid Email", 401));
+    }
+
+    res.status(200).json({
+        success: true
+    });
+});
+
+// Logout Seller
+exports.logoutSeller = asyncErrorHandler(async (req, res, next) => {
+    res.cookie("SellerToken", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Logged Out",
+    });
+});
+
+// Get Seller Details
+exports.getSellerDetails = asyncErrorHandler(async (req, res, next) => {
+    
+    const seller = await Seller.findById(req.seller.id);
+
+    res.status(200).json({
+        success: true,
+        seller,
+    });
+});
+
+// Forgot Password
+exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
+    
+    const seller = await Seller.findOne({email: req.body.email});
+
+    if(!seller) {
+        return next(new ErrorHandler("Seller Not Found", 404));
+    }
+
+    const resetToken = await seller.getResetPasswordToken();
+
+    await Seller.save({ validateBeforeSave: false });
+
+    const resetPasswordUrl = `https://${req.get("host")}/password/reset/${resetToken}`;
+
+    try {
+        await sendEmail({
+            email: seller.email,
+            templateId: process.env.SENDGRID_RESET_TEMPLATEID,
+            data: {
+                reset_url: resetPasswordUrl
+            }
+        });
+
+        res.status(200).json({
+            success: true,
+            message: `Email sent to ${seller.email} successfully`,
+        });
+
+    } catch (error) {
+        seller.resetPasswordToken = undefined;
+        seller.resetPasswordExpire = undefined;
+
+        await Seller.save({ validateBeforeSave: false });
+        return next(new ErrorHandler(error.message, 500))
+    }
+});
+
+// Reset Password
+exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
+
+    // create hash token
+    const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+
+    const seller = await Seller.findOne({ 
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    });
+
+    if(!seller) {
+        return next(new ErrorHandler("Invalid reset password token", 404));
+    }
+
+    seller.password = req.body.password;
+    seller.resetPasswordToken = undefined;
+    seller.resetPasswordExpire = undefined;
+
+    await Seller.save();
+    sendToken(seller, 200, res);
+});
+
+// Update Password
+exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
+
+    const seller = await Seller.findById(req.seller.id).select("+password");
+
+    const isPasswordMatched = await seller.comparePassword(req.body.oldPassword);
+
+    if(!isPasswordMatched) {
+        return next(new ErrorHandler("Old Password is Invalid", 400));
+    }
+
+    seller.password = req.body.newPassword;
+    await Seller.save();
+    sendToken(seller, 201, res);
+});
+
+// Update seller Profile
+exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
+
+    const newSellerData = {
+        name: req.body.name,
+        email: req.body.email,
+    }
+
+    if(req.body.avatar !== "") {
+        const seller = await Seller.findById(req.seller.id);
+
+        const imageId = seller.avatar.public_id;
+
+        await cloudinary.v2.uploader.destroy(imageId);
+
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+            folder: "avatars",
+            width: 150,
+            crop: "scale",
+        });
+
+        newSellerData.avatar = {
+            public_id: myCloud.public_id,
+            url: myCloud.secure_url,
+        }
+    }
+
+    await Seller.findByIdAndUpdate(req.seller.id, newSellerData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: true,
+    });
+
+    res.status(200).json({
+        success: true,
+    });
+});
+
+// Delete Role --ADMIN
+exports.deleteSeller = asyncErrorHandler(async (req, res, next) => {
+
+    const seller = await Seller.findById(req.params.id);
+
+    if(!seller) {
+        return next(new ErrorHandler(`Seller doesn't exist with id: ${req.params.id}`, 404));
+    }
+
+    await seller.remove();
+
+    res.status(200).json({
+        success: true
+    });
+});
+
+// Update Seller Role --ADMIN
+exports.updateSellerRole = asyncErrorHandler(async (req, res, next) => {
+
+    const newSellerData = {
+        name: req.body.name,
+        email: req.body.email,
+        gender: req.body.gender,
+        role: req.body.role,
+    }
+
+    await Seller.findByIdAndUpdate(req.params.id, newSellerData, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    res.status(200).json({
+        success: true,
+    });
+});
+
+// Get All Seller --ADMIN
+exports.getAllSellers = asyncErrorHandler(async (req, res, next) => {
+
+    const sellers = await Seller.find();
+
+    res.status(200).json({
+        success: true,
+        sellers,
+    });
+});
+
+// Get Single seller Details --ADMIN
+exports.getSingleSeller = asyncErrorHandler(async (req, res, next) => {
+
+    const seller = await Seller.findById(req.params.id);
+
+    if(!seller) {
+        return next(new ErrorHandler(`Seller doesn't exist with id: ${req.params.id}`, 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        seller,
+    });
 });

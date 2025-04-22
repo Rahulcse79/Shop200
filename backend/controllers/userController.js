@@ -2,10 +2,9 @@ const User = require('../models/userModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
 const { sendToken } = require('../utils/sendToken');
 const ErrorHandler = require('../utils/errorHandler');
-const sendEmail = require('../utils/sendEmail');
+const { sendEmail, SendOTP, CheckOTPUser } = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
-const { SendOTP, CheckOTP } = require('../utils/sendEmail');
 
 // Register User
 exports.registerUser = asyncErrorHandler(async (req, res, next) => {
@@ -63,7 +62,7 @@ exports.OTPBasedLoginUser = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Email or user not found.", 401));
     }
 
-    const isOTPMatched = await CheckOTP(email, OTP);
+    const isOTPMatched = await CheckOTPUser(email, OTP);
 
     if(!isOTPMatched) {
         return next(new ErrorHandler("Invalid OTP", 401));
@@ -109,7 +108,7 @@ exports.OTPSendUser = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Email user not found", 401));
     }
 
-    const GenerateOTP = await SendOTP( email );
+    const GenerateOTP = await SendOTP( email, "user" );
 
     if(!GenerateOTP) {
         return next(new ErrorHandler("Invalid Email", 401));
