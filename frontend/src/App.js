@@ -41,6 +41,7 @@ import GiftCards from "./components/Temp_pages/GiftCards"
 import HelpCenter from "./components/Temp_pages/HelpCenter";
 import SellOnShop200 from "./components/Seller/SellOnShop200";
 import OTP from "./components/User/OTP";
+import SellerLogin from "./components/Seller/SellerLogin";
 
 function App() {
 
@@ -90,6 +91,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/sellerlogin" element={<SellerLogin />} />
 
         <Route path="/downloadapp" element={<DownloadAppPage />} />
         <Route path="/giftCards" element={<GiftCards />} />

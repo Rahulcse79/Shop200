@@ -207,8 +207,8 @@ const SellOnShop200 = () => {
                             <div className="mt-6 space-x-4">
                                 {!isAuthenticated ? (
                                     <>
-                                        <Link to="/login" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Login</Link>
-                                        <Link to="/register" className="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-full hover:bg-yellow-500 transition">Register</Link>
+                                        <Link to="/sellerlogin" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Login</Link>
+                                        <Link to="/sellerregister" className="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-full hover:bg-yellow-500 transition">Register</Link>
                                     </>
                                 ) : (
                                     <Link to="/dashboard" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Go to Dashboard</Link>

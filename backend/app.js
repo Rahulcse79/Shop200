@@ -22,7 +22,9 @@ const user = require('./routes/userRoute');
 const product = require('./routes/productRoute');
 const order = require('./routes/orderRoute');
 const payment = require('./routes/paymentRoute');
+const seller = require('./routes/sellerRoute');
 
+app.use('/api/v1/seller', seller)
 app.use('/api/v1', user);
 app.use('/api/v1', product);
 app.use('/api/v1', order);

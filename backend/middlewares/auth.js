@@ -16,6 +16,19 @@ exports.isAuthenticatedUser = asyncErrorHandler(async (req, res, next) => {
     next();
 });
 
+exports.isAuthenticatedSeller = asyncErrorHandler(async (req, res, next) => {
+
+    const { SellerToken } = req.cookies;
+
+    if (!SellerToken) {
+        return next(new ErrorHandler("Please Login to Access", 401))
+    }
+
+    const decodedData = jwt.verify(SellerToken, process.env.JWT_SECRET);
+    req.seller = await seller.findById(decodedData.id);
+    next();
+});
+
 exports.authorizeRoles = (...roles) => {
     return (req, res, next) => {
 

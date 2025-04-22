@@ -1,6 +1,6 @@
 const User = require('../models/userModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
-const sendToken = require('../utils/sendToken');
+const { sendToken } = require('../utils/sendToken');
 const ErrorHandler = require('../utils/errorHandler');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
@@ -12,7 +12,6 @@ exports.registerUser = asyncErrorHandler(async (req, res, next) => {
     try {
         // Validate required fields
         const { name, email, gender, password, avatar } = req.body;
-        console.log(req.body);
 
         if (!name || !email || !gender || !password || !avatar) {
             console.warn("[REGISTER] Missing required fields");

@@ -42,6 +42,7 @@ import {
     REMOVE_USER_DETAILS,
 } from '../constants/userConstants';
 
+
 export const userReducer = (state = { user: {} }, { type, payload }) => {
     switch (type) {
         case LOGIN_USER_REQUEST:
