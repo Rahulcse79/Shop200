@@ -108,7 +108,7 @@ exports.OTPSendUser = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Email user not found", 401));
     }
 
-    const GenerateOTP = await SendOTP( email, "user" );
+    const GenerateOTP = await SendOTP( email, "User" );
 
     if(!GenerateOTP) {
         return next(new ErrorHandler("Invalid Email", 401));

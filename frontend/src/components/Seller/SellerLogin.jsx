@@ -25,7 +25,7 @@ const Login = () => {
         dispatch(loginSeller(email, password));
     }
 
-    const redirect = location.search ? location.search.split("=")[1] : "account";
+    const redirect = location.search ? location.search.split("=")[1] : "/seller/dashboard";
 
     useEffect(() => {
         if (error) {
@@ -64,7 +64,7 @@ const Login = () => {
 
                         <div className="text-center py-10 px-4 sm:px-14">
 
-                            <h2 className="text-2xl font-semibold text-gray-700 mb-6">Login to Your Account</h2>
+                            <h2 className="text-2xl font-semibold text-gray-700 mb-6">Seller login to Your Account</h2>
 
                             <form onSubmit={handleLogin}>
                                 <div className="flex flex-col w-full gap-4">
@@ -103,14 +103,14 @@ const Login = () => {
                                         </button>
 
                                         <Link
-                                            to="/otp"
+                                            to="/seller/otp/based/login"
                                             className="text-white py-3 w-full bg-red-500 shadow-md hover:bg-red-600 rounded-md text-center font-medium transition-all"
                                         >
                                             OTP-based Login
                                         </Link>
 
                                         <Link
-                                            to="/password/forgot"
+                                            to="/password/seller/forgot"
                                             className="text-red-600 text-sm font-medium hover:underline text-center"
                                         >
                                             Forgot Password?
@@ -120,8 +120,8 @@ const Login = () => {
                             </form>
 
                             <div className="mt-4">
-                                <Link to="/register" className="text-sm text-gray-600">
-                                    New to Shop200? <span className="text-red-600 font-semibold hover:underline">Create an account</span>
+                                <Link to="/seller/register" className="text-sm text-gray-600">
+                                    New to Shop200? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
                                 </Link>
                             </div>
 

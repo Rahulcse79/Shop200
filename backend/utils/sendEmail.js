@@ -37,7 +37,6 @@ const deleteOldOTPSELLER = () => {
     }
 };
 
-
 const sendEmail = async (options) => {
     const transporter = nodemailer.createTransport({
         host: MailHost,
@@ -58,7 +57,7 @@ const sendEmail = async (options) => {
 
     try {
         const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent:', info.messageId);
+     
         return true;
     } catch (error) {
         console.error('Error sending email:', error);
@@ -121,11 +120,19 @@ Shop200 Team
 
     const result = await SendmailTootp(email, MailSubject, MailText);
     if (result) {
-        otpStoreUser[email] = {
-            otp,
-            timestamp: Date.now(),
-        };
-        return true;
+        if(UseFor === "Seller") {
+            otpStoreSeller[email] = {
+                otp,
+                timestamp: Date.now(),
+            };
+            return true;
+        } else if (UseFor === "User") {
+            otpStoreUser[email] = {
+                otp,
+                timestamp: Date.now(),
+            };
+            return true;
+        }
     }
 
     return false;

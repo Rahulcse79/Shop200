@@ -3,16 +3,14 @@ import { useSelector } from 'react-redux';
 import MetaData from '../Layouts/MetaData';
 import Loader from '../Layouts/Loader';
 import MinCategory from '../Layouts/MinCategory';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 
 const SellOnShop200 = () => {
 
-    const { loading, isAuthenticated } = useSelector(state => state.user);
+    const { loading, isAuthenticated } = useSelector(state => state.seller);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedItemOFCard, setSelectedItemOFCard] = useState(null);
-    const navigate = useNavigate();
 
     const highlights = [
         {
@@ -178,11 +176,6 @@ const SellOnShop200 = () => {
         setCurrentIndex(prevIndex => (prevIndex === sellerStories.length - 1 ? 0 : prevIndex + 1));
     };
 
-    const [issues, setIssues] = useState([
-        { id: 1, title: "I want to manage my order", description: "View, cancel or return an order" },
-        { id: 2, title: "I want help with returns & refunds", description: "Manage and track returns" }
-    ]);
-
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex(prevIndex => (prevIndex === sellerStories.length - 1 ? 0 : prevIndex + 1));
@@ -207,8 +200,8 @@ const SellOnShop200 = () => {
                             <div className="mt-6 space-x-4">
                                 {!isAuthenticated ? (
                                     <>
-                                        <Link to="/sellerlogin" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Login</Link>
-                                        <Link to="/sellerregister" className="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-full hover:bg-yellow-500 transition">Register</Link>
+                                        <Link to="/seller/login" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Login</Link>
+                                        <Link to="/seller/register" className="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-full hover:bg-yellow-500 transition">Register</Link>
                                     </>
                                 ) : (
                                     <Link to="/dashboard" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Go to Dashboard</Link>
@@ -330,7 +323,7 @@ const SellOnShop200 = () => {
                         <section className="bg-blue-50 py-10 text-center w-full">
                             <h3 className="text-2xl font-bold text-gray-800">Ready to start selling?</h3>
                             <p className="text-gray-600 mt-2">Join Shop200 today and unlock your business growth!</p>
-                            <Link to="/register" className="mt-4 inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-blue-700 transition">Register Now</Link>
+                            <Link to="/seller/register" className="mt-4 inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-blue-700 transition">Register Now</Link>
                         </section>
 
                         <section className="p-8 text-center text-gray-500 text-sm">

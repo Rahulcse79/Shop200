@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import WorkIcon from '@mui/icons-material/Work';
-import StarsIcon from '@mui/icons-material/Stars';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
-import HelpIcon from '@mui/icons-material/Help';
 import paymentMethods from '../../../assets/images/payment-methods.svg';
 import { useLocation } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -115,7 +111,6 @@ const Footer = () => {
 
   const location = useLocation();
   const [adminRoute, setAdminRoute] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setAdminRoute(location.pathname.split("/", 2).includes("admin"))
@@ -171,7 +166,7 @@ const Footer = () => {
           {/* <!-- footer ends --> */}
 
           <div className="px-16 py-6 w-full bg-primary-darkBlue hidden sm:flex justify-between items-center text-sm text-white">
-            <Link to="/SellOnShop200" className="flex items-center gap-2">
+            <Link to="/Seller/home" className="flex items-center gap-2">
               <span className="text-red-400">
                 <CardGiftcardIcon sx={{ fontSize: "20px" }} />
               </span>

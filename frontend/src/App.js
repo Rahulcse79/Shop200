@@ -42,6 +42,7 @@ import HelpCenter from "./components/Temp_pages/HelpCenter";
 import SellOnShop200 from "./components/Seller/SellOnShop200";
 import OTP from "./components/User/OTP";
 import SellerLogin from "./components/Seller/SellerLogin";
+import SellerOTPBasedLogin from "./components/Seller/SellerOTPBasedLogin";
 
 function App() {
 
@@ -79,7 +80,7 @@ function App() {
   // disable right click
   window.addEventListener("contextmenu", (e) => e.preventDefault());
   window.addEventListener("keydown", (e) => {
-    if (e.keyCode == 123) e.preventDefault();
+    if (e.keyCode === 123) e.preventDefault();
     if (e.ctrlKey && e.shiftKey && e.keyCode === 73) e.preventDefault();
     if (e.ctrlKey && e.shiftKey && e.keyCode === 74) e.preventDefault();
   });
@@ -91,12 +92,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/sellerlogin" element={<SellerLogin />} />
 
         <Route path="/downloadapp" element={<DownloadAppPage />} />
         <Route path="/giftCards" element={<GiftCards />} />
         <Route path="/helpCenter" element={<HelpCenter />} />
-        <Route path="/SellOnShop200" element={<SellOnShop200 />} />
+
+        <Route path="/Seller/home" element={<SellOnShop200 />} />
+        <Route path="/seller/login" element={<SellerLogin />} />
+        <Route path="/seller/otp/based/login" element={<SellerOTPBasedLogin />} />
 
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/products" element={<Products />} />

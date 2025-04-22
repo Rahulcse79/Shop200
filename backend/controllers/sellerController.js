@@ -51,7 +51,6 @@ exports.registerSeller = asyncErrorHandler(async (req, res, next) => {
 // OTP Based Login seller
 exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
     const { email, OTP } = req.body;
-
     if (!email ) {
         return next(new ErrorHandler("Please enter both Email and OTP", 400));
     }
@@ -108,7 +107,7 @@ exports.OTPSendSeller = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Email seller not found", 401));
     }
 
-    const GenerateOTP = await SendOTP( email );
+    const GenerateOTP = await SendOTP( email, "Seller" );
 
     if(!GenerateOTP) {
         return next(new ErrorHandler("Invalid Email", 401));

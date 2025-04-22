@@ -1,7 +1,6 @@
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import LiveHelpIcon from '@mui/icons-material/LiveHelp';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import DownloadIcon from '@mui/icons-material/Download';
 
 const SecondaryDropDownMenu = () => {
@@ -15,7 +14,7 @@ const SecondaryDropDownMenu = () => {
         {
             title: "Sell on Shop200",
             icon: <BusinessCenterIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/SellOnShop200",
+            redirect: "/Seller/home",
         },
         {
             title: "24x7 Customer Care",

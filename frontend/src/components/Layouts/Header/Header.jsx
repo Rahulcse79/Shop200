@@ -72,7 +72,7 @@ const Header = () => {
 
           <div>
           <Link
-              to="/SellOnShop200"
+              to="/Seller/home"
               className="moreDropDown hidden sm:flex items-center text-white font-medium gap-1 cursor-pointer"
             >
               Become a seller

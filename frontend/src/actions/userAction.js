@@ -270,7 +270,6 @@ export const updatePassword = (passwords) => async (dispatch) => {
     }
 };
 
-
 // Forgot Password
 export const forgotPassword = (email) => async (dispatch) => {
     try {
