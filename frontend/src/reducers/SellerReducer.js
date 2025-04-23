@@ -40,6 +40,9 @@ import {
     DELETE_SELLER_RESET,
     DELETE_SELLER_FAIL,
     REMOVE_SELLER_DETAILS,
+    OTP_SEND_REQUEST,
+    OTP_SEND_SUCCESS,
+    OTP_SEND_FAIL
 } from '../constants/SellerConstants';
 
 export const SellerReducer = (state = { seller: {} }, { type, payload }) => {
@@ -248,6 +251,41 @@ export const sellerDetailsReducer = (state = { seller: {} }, { type, payload }) 
                 ...state,
                 error: null,
             };
+        default:
+            return state;
+    }
+};
+
+export const otpSendReducer = (state = {}, { type, payload }) => {
+    switch (type) {
+        case OTP_SEND_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+
+        case OTP_SEND_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                seller: payload,
+                isOTPSent: true,
+            };
+
+        case OTP_SEND_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payload,
+                isOTPSent: false,
+            };
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+
         default:
             return state;
     }

@@ -45,6 +45,7 @@ import SellerLogin from "./components/Seller/SellerLogin";
 import SellerOTPBasedLogin from "./components/Seller/SellerOTPBasedLogin";
 import SellerRegister from "./components/Seller/SellerRegister";
 import SellerForgotPassword from "./components/Seller/SellerForgotPassword";
+import SellerResetPassword from "./components/Seller/SellerResetPassword";
 
 function App() {
 
@@ -104,6 +105,7 @@ function App() {
         <Route path="/seller/otp/based/login" element={<SellerOTPBasedLogin />} />
         <Route path="/seller/register" element={<SellerRegister />} />
         <Route path="/seller/forgot" element={<SellerForgotPassword />} />
+        <Route path="/password/seller/reset/:token" element={<SellerResetPassword />} />
 
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/products" element={<Products />} />

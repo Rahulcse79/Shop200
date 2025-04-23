@@ -73,7 +73,7 @@ exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
 // Login Seller
 exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body;
-
+    console.log(req.body)
     if (!email || !password) {
         return next(new ErrorHandler("Please Enter Email And Password", 400));
     }
@@ -85,7 +85,7 @@ exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     }
 
     const isPasswordMatched = await seller.comparePassword(password);
-
+    console.log(isPasswordMatched)
     if (!isPasswordMatched) {
         return next(new ErrorHandler("Invalid Email or Password", 401));
     }
@@ -155,7 +155,7 @@ exports.forgotPassword = asyncErrorHandler(async (req, res, next) => {
 
     await seller.save({ validateBeforeSave: false });
 
-    const resetPasswordUrl = `https://${req.get("host")}/password/reset/${resetToken}`;
+    const resetPasswordUrl = `http://localhost:3000/password/seller/reset/${resetToken}`;
 
     const MailSubject = "Your Shop200 OTP Code";
     const MailText = `
@@ -182,7 +182,7 @@ Shop200 Team
         seller.resetPasswordToken = undefined;
         seller.resetPasswordExpire = undefined;
 
-        await Seller.save({ validateBeforeSave: false });
+        await seller.save({ validateBeforeSave: false });
         return next(new ErrorHandler(error.message, 500))
     }
 });
@@ -190,8 +190,9 @@ Shop200 Team
 // Reset Password
 exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
 
-    // create hash token
-    const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+    const resetPasswordToken = crypto.createHash("sha256")
+        .update(req.params.token)
+        .digest("hex");
 
     const seller = await Seller.findOne({
         resetPasswordToken,
@@ -199,16 +200,15 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
     });
 
     if (!seller) {
-        return next(new ErrorHandler("Invalid reset password token", 404));
+        return next(new ErrorHandler("Invalid or expired reset password token", 404));
     }
-
     seller.password = req.body.password;
     seller.resetPasswordToken = undefined;
     seller.resetPasswordExpire = undefined;
-
-    await Seller.save();
-    sendToken(seller, 200, res);
+    await seller.save();
+    sendSellerToken(seller, 200, res);
 });
+
 
 // Update Password
 exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
@@ -222,7 +222,7 @@ exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
     }
 
     seller.password = req.body.newPassword;
-    await Seller.save();
+    await seller.save();
     sendToken(seller, 201, res);
 });
 

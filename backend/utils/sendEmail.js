@@ -166,6 +166,7 @@ module.exports = {
     sendEmail,
     SendOTP,
     CheckOTPUser,
+    SendmailTootp,
     CheckOTPSeller,
     CheckOTPSeller
 };

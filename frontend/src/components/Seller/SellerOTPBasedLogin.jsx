@@ -15,7 +15,7 @@ const OTP = () => {
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
 
-    const { error, message, loading } = useSelector((state) => state.forgotPasswordSeller);
+    const { error, isOTPSent, loading } = useSelector((state) => state.otpSendReducer);
 
     const [email, setEmail] = useState("");
     const [OTP, setOTP] = useState("");
@@ -43,15 +43,17 @@ const OTP = () => {
         ));
     };
 
-
     useEffect(() => {
         if (error) {
             enqueueSnackbar(error, { variant: "error" });
             dispatch(clearErrors());
         }
-        if (message) {
-            enqueueSnackbar(message, { variant: "success" });
+        if (isOTPSent) {
+            enqueueSnackbar("OTP send successfully", { variant: "success" });
         }
+    }, [dispatch, error, isOTPSent, enqueueSnackbar]);
+
+    useEffect(() => {
         if (isAuthenticated) {
             navigate(`/${redirect}`)
         }
@@ -72,7 +74,7 @@ const OTP = () => {
             }
         }, 2000);
         return () => clearInterval(timerInterval);
-    }, [dispatch, error, message, enqueueSnackbar, timerShow, timeLeft, isAuthenticated, navigate, redirect]);
+    }, [timerShow, timeLeft, isAuthenticated, navigate, redirect]);
 
     const handleSendOTP = (e) => {
         e.preventDefault();
@@ -126,23 +128,14 @@ const OTP = () => {
                 </div>
 
                 <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-2xl rounded-2xl overflow-hidden">
-
-                
-                <div className="loginSidebar bg-red-600 p-10 pr-12 hidden sm:flex flex-col justify-center gap-6 w-2/5">
+                    <div className="loginSidebar bg-red-600 p-10 pr-12 hidden sm:flex flex-col justify-center gap-6 w-2/5">
                         <h1 className="font-extrabold text-white text-4xl">Welcome Back, Seller!</h1>
                     </div>
-
-                    {/* <!-- login column --> */}
                     <div className="flex-1 overflow-hidden">
                         <h2 className="text-center text-2xl font-medium mt-6 text-gray-800">Seller OTP Based login</h2>
-
-                        {/* <!-- edit info container --> */}
                         <div className="text-center py-10 px-4 sm:px-14">
-
-                            {/* <!-- input container --> */}
                             <form onSubmit={handleSubmit}>
                                 <div className="flex flex-col w-full gap-4">
-
                                     <TextField
                                         fullWidth
                                         label="Email"
@@ -151,9 +144,7 @@ const OTP = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
-
                                     <button type="button" onClick={handleSendOTP} className="text-white py-3 w-full bg-blue-600 shadow hover:shadow-lg rounded-sm font-medium">Send OTP</button>
-
                                     <TextField
                                         fullWidth
                                         label="OTP"
@@ -170,10 +161,8 @@ const OTP = () => {
                                             {formatTime(timeLeft)}
                                         </div>
                                     )}
-
-                                    {/* <!-- button container --> */}
                                     <div className="flex flex-col gap-2.5 mt-2 mb-32">
-                                    <p className="text-xs text-gray-500 text-left">
+                                        <p className="text-xs text-gray-500 text-left">
                                             By continuing, you agree to Shop200's
                                             <a href="https://www.Shop200.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
                                             <a href="https://www.Shop200.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
@@ -181,21 +170,16 @@ const OTP = () => {
                                         <button type="submit" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Submit</button>
                                         <button type="button" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium" onClick={() => navigate("/seller/login")}>Login by Password</button>
                                     </div>
-                                    {/* <!-- button container --> */}
-
                                 </div>
                             </form>
-                            {/* <!-- input container --> */}
-
-                            <Link to="/seller/register" className="font-medium text-sm text-primary-blue">New to Shop200? Create an account</Link>
+                            <div className="mt-4">
+                                <Link to="/seller/register" className="text-sm text-gray-600">
+                                    New to Shop200? <span className="text-red-600 font-semibold hover:underline">Create an seller account</span>
+                                </Link>
+                            </div>
                         </div>
-                        {/* <!-- edit info container --> */}
-
                     </div>
-                    {/* <!-- login column --> */}
                 </div>
-                {/* <!-- row --> */}
-
             </main>
         </>
     );
