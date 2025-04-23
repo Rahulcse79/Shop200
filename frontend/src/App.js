@@ -43,6 +43,8 @@ import SellOnShop200 from "./components/Seller/SellOnShop200";
 import OTP from "./components/User/OTP";
 import SellerLogin from "./components/Seller/SellerLogin";
 import SellerOTPBasedLogin from "./components/Seller/SellerOTPBasedLogin";
+import SellerRegister from "./components/Seller/SellerRegister";
+import SellerForgotPassword from "./components/Seller/SellerForgotPassword";
 
 function App() {
 
@@ -100,6 +102,8 @@ function App() {
         <Route path="/Seller/home" element={<SellOnShop200 />} />
         <Route path="/seller/login" element={<SellerLogin />} />
         <Route path="/seller/otp/based/login" element={<SellerOTPBasedLogin />} />
+        <Route path="/seller/register" element={<SellerRegister />} />
+        <Route path="/seller/forgot" element={<SellerForgotPassword />} />
 
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/products" element={<Products />} />

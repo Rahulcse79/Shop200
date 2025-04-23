@@ -94,7 +94,6 @@ const Login = () => {
                                             <a href="https://www.Shop200.com/pages/terms" className="text-red-600 font-semibold ml-1">Terms of Use</a> and
                                             <a href="https://www.Shop200.com/pages/privacypolicy" className="text-red-600 font-semibold ml-1">Privacy Policy.</a>
                                         </p>
-
                                         <button
                                             type="submit"
                                             className="text-white py-3 w-full bg-red-600 shadow-md hover:bg-red-700 rounded-md font-medium transition-all"
@@ -110,7 +109,7 @@ const Login = () => {
                                         </Link>
 
                                         <Link
-                                            to="/password/seller/forgot"
+                                            to="/seller/forgot"
                                             className="text-red-600 text-sm font-medium hover:underline text-center"
                                         >
                                             Forgot Password?
@@ -129,8 +128,6 @@ const Login = () => {
 
                     </div>
                 </div>
-
-
             </main>
         </>
     );

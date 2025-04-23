@@ -7,10 +7,10 @@ import RadioGroup from '@mui/material/RadioGroup'
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors, registerUser } from '../../actions/userAction';
+import { clearErrors, registerSeller } from '../../actions/SellerAction';
 import BackdropLoader from '../Layouts/BackdropLoader';
 import MetaData from '../Layouts/MetaData';
-import FormSidebar from './FormSidebar';
+import Logo from '../../assets/images/logo.png';
 
 const Register = () => {
 
@@ -18,9 +18,9 @@ const Register = () => {
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
 
-    const { loading, isAuthenticated, error } = useSelector((state) => state.user);
+    const { loading, isAuthenticated, error } = useSelector((state) => state.seller);
 
-    const [user, setUser] = useState({
+    const [seller, setSeller] = useState({
         name: "",
         email: "",
         gender: "",
@@ -28,7 +28,7 @@ const Register = () => {
         cpassword: "",
     });
 
-    const { name, email, gender, password, cpassword } = user;
+    const { name, email, gender, password, cpassword } = seller;
 
     const [avatar, setAvatar] = useState(null);
     const [avatarPreview, setAvatarPreview] = useState("preview.png");
@@ -55,7 +55,7 @@ const Register = () => {
         formData.set("password", password);
         formData.set("avatar", avatar);
 
-        dispatch(registerUser(formData));
+        dispatch(registerSeller(formData));
     }
 
     const handleDataChange = (e) => {
@@ -72,7 +72,7 @@ const Register = () => {
             reader.readAsDataURL(e.target.files[0]);
 
         } else {
-            setUser({ ...user, [e.target.name]: e.target.value });
+            setSeller({ ...seller, [e.target.name]: e.target.value });
         }
     }
 
@@ -88,31 +88,36 @@ const Register = () => {
 
     return (
         <>
-            <MetaData title="Register | Shop200" />
+            <MetaData title="Seller Register | Shop200" />
 
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">
 
-                {/* <!-- row --> */}
-                <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-lg">
+                <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 py-12 text-center text-white">
+                    <img src={Logo} alt="Shop200 Logo" className="mx-auto mb-4 w-28 h-auto" />
+                    <h1 className="text-4xl font-bold">Join Shop200 as a Seller</h1>
+                    <p className="mt-2 text-lg">
+                        Start your online store today and showcase your products to a wide audience across the country.
+                        Simple setup, secure payments, and powerful tools — all in one place.
+                    </p>
+                    <p className="mt-1 text-sm text-blue-100">
+                        Register now and take the first step toward growing your business with Shop200.
+                    </p>
+                    <div className="mt-6 space-x-4">
+                    </div>
+                </div>
 
-                    <FormSidebar
-                        title="Sign up here!"
-                        tag="Sign up with your email number to get started"
-                    />
-
-                    {/* <!-- signup column --> */}
+                <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-2xl rounded-2xl overflow-hidden">
+                    <div className="loginSidebar bg-red-600 p-10 pr-12 hidden sm:flex flex-col justify-center gap-6 w-2/5">
+                        <h1 className="font-extrabold text-white text-4xl">Start Your Selling Journey Today!</h1>
+                    </div>
                     <div className="flex-1 overflow-hidden">
-
-                        {/* <!-- personal info procedure container --> */}
                         <form
                             onSubmit={handleRegister}
                             encType="multipart/form-data"
                             className="p-5 sm:p-10"
                         >
                             <div className="flex flex-col gap-4 items-start">
-
-                                {/* <!-- input container column --> */}
                                 <div className="flex flex-col w-full justify-between sm:flex-col gap-3 items-center">
                                     <TextField
                                         fullWidth
@@ -193,7 +198,7 @@ const Register = () => {
                                     </label>
                                 </div>
                                 <button type="submit" className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Signup</button>
-                                <button onClick={ () => navigate('/login') } className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Existing User? Log in</button>
+                                <button onClick={() => navigate('/seller/login')} className="text-white py-3 w-full bg-red-600 shadow hover:shadow-lg rounded-sm font-medium">Existing seller? Log in</button>
                             </div>
                         </form>
                     </div>

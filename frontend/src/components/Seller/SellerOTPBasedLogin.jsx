@@ -106,7 +106,7 @@ const OTP = () => {
 
     return (
         <>
-            <MetaData title="Forgot Password" />
+            <MetaData title="Seller login by OTP" />
 
             {loading && <BackdropLoader />}
             <main className="w-full mt-12 sm:pt-20 sm:mt-0">
@@ -125,7 +125,6 @@ const OTP = () => {
                     </div>
                 </div>
 
-                {/* <!-- row --> */}
                 <div className="flex sm:w-4/6 sm:mt-4 m-auto mb-7 bg-white shadow-2xl rounded-2xl overflow-hidden">
 
                 
