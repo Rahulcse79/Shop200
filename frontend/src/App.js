@@ -5,6 +5,7 @@ import Login from './components/User/Login';
 import Register from './components/User/Register';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { loadUser } from './actions/userAction';
+import { loadSeller } from './actions/SellerAction';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import UpdateProfile from './components/User/UpdateProfile';
@@ -46,17 +47,13 @@ import SellerOTPBasedLogin from "./components/Seller/SellerOTPBasedLogin";
 import SellerRegister from "./components/Seller/SellerRegister";
 import SellerForgotPassword from "./components/Seller/SellerForgotPassword";
 import SellerResetPassword from "./components/Seller/SellerResetPassword";
+import SellerDashboard from "./components/Seller/SellerDashBoard";
+import SellerProtectedRoute from './Routes/SellerProtectedRoute';
 
 function App() {
 
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  // const [stripeApiKey, setStripeApiKey] = useState("");
-
-  // async function getStripeApiKey() {
-  //   const { data } = await axios.get('/api/v1/stripeapikey');
-  //   setStripeApiKey(data.stripeApiKey);
-  // }
 
   useEffect(() => {
     WebFont.load({
@@ -68,10 +65,9 @@ function App() {
 
   useEffect(() => {
     dispatch(loadUser());
-    // getStripeApiKey();
+    dispatch(loadSeller());
   }, [dispatch]);
 
-  // always scroll to top on route/path change
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -80,7 +76,6 @@ function App() {
     });
   }, [pathname])
 
-  // disable right click
   window.addEventListener("contextmenu", (e) => e.preventDefault());
   window.addEventListener("keydown", (e) => {
     if (e.keyCode === 123) e.preventDefault();
@@ -100,7 +95,7 @@ function App() {
         <Route path="/giftCards" element={<GiftCards />} />
         <Route path="/helpCenter" element={<HelpCenter />} />
 
-        <Route path="/Seller/home" element={<SellOnShop200 />} />
+        <Route path="/seller/home" element={<SellOnShop200 />} />
         <Route path="/seller/login" element={<SellerLogin />} />
         <Route path="/seller/otp/based/login" element={<SellerOTPBasedLogin />} />
         <Route path="/seller/register" element={<SellerRegister />} />
@@ -112,6 +107,13 @@ function App() {
         <Route path="/products/:keyword" element={<Products />} />
 
         <Route path="/cart" element={<Cart />} />
+
+        {/* Seller protected route */}
+        <Route path="/seller/dashboard" element={
+          <SellerProtectedRoute>
+            <SellerDashboard />
+          </SellerProtectedRoute>
+        } ></Route>
 
         {/* order process */}
         <Route path="/shipping" element={
@@ -146,7 +148,7 @@ function App() {
           </ProtectedRoute>
         } ></Route>
 
-        <Route path="/orders" element={
+        <Route path="/orders" element={ 
           <ProtectedRoute>
             <MyOrders />
           </ProtectedRoute>

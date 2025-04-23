@@ -166,7 +166,7 @@ const Footer = () => {
           {/* <!-- footer ends --> */}
 
           <div className="px-16 py-6 w-full bg-primary-darkBlue hidden sm:flex justify-between items-center text-sm text-white">
-            <Link to="/Seller/home" className="flex items-center gap-2">
+            <Link to="/seller/home" className="flex items-center gap-2">
               <span className="text-red-400">
                 <CardGiftcardIcon sx={{ fontSize: "20px" }} />
               </span>

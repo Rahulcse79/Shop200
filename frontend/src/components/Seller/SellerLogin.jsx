@@ -25,7 +25,7 @@ const Login = () => {
         dispatch(loginSeller(email, password));
     }
 
-    const redirect = location.search ? location.search.split("=")[1] : "/seller/dashboard";
+    const redirect = location.search ? location.search.split("=")[1] : "seller/dashboard";
 
     useEffect(() => {
         if (error) {

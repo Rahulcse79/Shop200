@@ -49,7 +49,8 @@ const ResetPassword = () => {
 
     return (
         <>
-            <MetaData title="Password Reset | Shop200" />
+            <MetaData title="Seller Password Reset | Shop200" />
+
             {loading && <BackdropLoader />}
             <main class="w-full mt-12 sm:pt-20 sm:mt-0">
                 <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 py-12 text-center text-white">

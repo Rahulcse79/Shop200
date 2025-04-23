@@ -73,7 +73,7 @@ exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
 // Login Seller
 exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body;
-    console.log(req.body)
+  
     if (!email || !password) {
         return next(new ErrorHandler("Please Enter Email And Password", 400));
     }
@@ -85,7 +85,7 @@ exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     }
 
     const isPasswordMatched = await seller.comparePassword(password);
-    console.log(isPasswordMatched)
+    
     if (!isPasswordMatched) {
         return next(new ErrorHandler("Invalid Email or Password", 401));
     }

@@ -4,6 +4,7 @@ import MetaData from '../Layouts/MetaData';
 import Loader from '../Layouts/Loader';
 import MinCategory from '../Layouts/MinCategory';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
 
 const SellOnShop200 = () => {
@@ -11,6 +12,7 @@ const SellOnShop200 = () => {
     const { loading, isAuthenticated } = useSelector(state => state.seller);
     const [selectedItem, setSelectedItem] = useState(null);
     const [selectedItemOFCard, setSelectedItemOFCard] = useState(null);
+    const navigate = useNavigate();
 
     const highlights = [
         {
@@ -181,8 +183,12 @@ const SellOnShop200 = () => {
             setCurrentIndex(prevIndex => (prevIndex === sellerStories.length - 1 ? 0 : prevIndex + 1));
         }, 3000);
 
+        if (isAuthenticated) {
+            navigate('/seller/dashboard')
+        }
+
         return () => clearInterval(interval);
-    }, [sellerStories.length]);
+    }, [sellerStories.length, isAuthenticated, navigate]);
 
     return (
         <>
@@ -204,7 +210,7 @@ const SellOnShop200 = () => {
                                         <Link to="/seller/register" className="bg-yellow-400 text-gray-900 font-semibold px-6 py-2 rounded-full hover:bg-yellow-500 transition">Register</Link>
                                     </>
                                 ) : (
-                                    <Link to="/dashboard" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Go to Dashboard</Link>
+                                    <Link to="/seller/dashboard" className="bg-white text-blue-600 font-semibold px-6 py-2 rounded-full hover:bg-gray-200 transition">Go to Dashboard</Link>
                                 )}
                             </div>
                         </div>

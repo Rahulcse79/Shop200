@@ -17,5 +17,4 @@ router.route('/me/update').put(isAuthenticatedSeller, updateProfile);
 router.route("/admin/sellers").get(isAuthenticatedSeller, authorizeRolesForSeller("admin"), getAllSellers);
 router.route("/admin/seller/:id").get(isAuthenticatedSeller, authorizeRolesForSeller("admin"), getSingleSeller).put(isAuthenticatedSeller, authorizeRolesForSeller("admin"), updateSellerRole).delete(isAuthenticatedSeller, authorizeRolesForSeller("admin"), deleteSeller);
 
-
 module.exports = router;

@@ -14,7 +14,7 @@ const SecondaryDropDownMenu = () => {
         {
             title: "Sell on Shop200",
             icon: <BusinessCenterIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/Seller/home",
+            redirect: "/seller/home",
         },
         {
             title: "24x7 Customer Care",

@@ -222,14 +222,11 @@ export const loadSeller = () => async (dispatch) => {
     try {
 
         dispatch({ type: LOAD_SELLER_REQUEST });
-
         const { data } = await axios.get('/api/v1/seller/me');
-
         dispatch({
             type: LOAD_SELLER_SUCCESS,
             payload: data.seller,
         });
-
     } catch (error) {
         dispatch({
             type: LOAD_SELLER_FAIL,

@@ -23,7 +23,7 @@ const OTP = () => {
     const [timeLeft, setTimeLeft] = useState(localStorage.getItem('timeLeft') ? parseInt(localStorage.getItem('timeLeft')) : 1);
     const { isAuthenticated } = useSelector((state) => state.seller);
     const location = useLocation();
-    const redirect = location.search ? location.search.split("=")[1] : "/seller/dashboard";
+    const redirect = location.search ? location.search.split("=")[1] : "seller/dashboard";
 
     const handleSubmit = (e) => {
         e.preventDefault();

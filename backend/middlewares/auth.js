@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const Seller = require('../models/sellerModel');
 const ErrorHandler = require('../utils/errorHandler');
 const asyncErrorHandler = require('./asyncErrorHandler');
 
@@ -25,7 +26,7 @@ exports.isAuthenticatedSeller = asyncErrorHandler(async (req, res, next) => {
     }
 
     const decodedData = jwt.verify(SellerToken, process.env.JWT_SECRET);
-    req.seller = await seller.findById(decodedData.id);
+    req.seller = await Seller.findById(decodedData.id);
     next();
 });
 

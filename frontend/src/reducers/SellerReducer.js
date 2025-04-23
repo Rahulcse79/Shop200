@@ -43,7 +43,7 @@ import {
     OTP_SEND_REQUEST,
     OTP_SEND_SUCCESS,
     OTP_SEND_FAIL
-} from '../constants/SellerConstants';
+} from '../constants/SellerConstants'; 
 
 export const SellerReducer = (state = { seller: {} }, { type, payload }) => {
     switch (type) {
