@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const categories = [
-  { title: "Create Store", link: "/seller/createstore" },
+  { title: "Create Store", link: "/seller/create-store" },
   { title: "Bank Account Setup", link: "/seller/bank-account" },
   { title: "Business Information", link: "/seller/business-info" },
   { title: "Document Upload", link: "/seller/upload-documents" },

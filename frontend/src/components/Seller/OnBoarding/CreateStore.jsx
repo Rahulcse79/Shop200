@@ -24,7 +24,7 @@ const CreateStore = () => {
     const [storeDescription, setStoreDescription] = useState('');
     const [onboardingSteps, setOnboardingSteps] = useState([2, 0, 0, 0, 0, 0]);
 
-    const { seller, loading } = useSelector(state => state.seller);
+    const { loading } = useSelector(state => state.seller);
 
     const handleLogoChange = (e) => {
         const file = e.target.files[0];

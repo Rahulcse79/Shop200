@@ -50,6 +50,7 @@ import SellerResetPassword from "./components/Seller/SellerResetPassword";
 import SellerDashboard from "./components/Seller/SellerDashBoard";
 import SellerProtectedRoute from './Routes/SellerProtectedRoute';
 import CreateStore from './components/Seller/OnBoarding/CreateStore';
+import SellerBankAccountADDForm from './components/Seller/OnBoarding/BankAccountSetup';
 
 function App() {
 
@@ -116,13 +117,18 @@ function App() {
           </SellerProtectedRoute>
         } ></Route>
 
-        <Route path="/seller/createstore" element={
-          <SellerProtectedRoute>
+        <Route path="/seller/create-store" element={
+          < SellerProtectedRoute >
             <CreateStore />
           </SellerProtectedRoute>
+        } ></Route >
+
+        <Route path="/seller/bank-account" element={
+          < SellerProtectedRoute >
+            <SellerBankAccountADDForm />
+          </ SellerProtectedRoute>
         } ></Route>
 
-        {/* order process */}
         <Route path="/shipping" element={
           <ProtectedRoute>
             <Shipping />
@@ -271,7 +277,7 @@ function App() {
 
         <Route path="*" element={<NotFound />}></Route>
 
-      </Routes>
+      </Routes >
       <Footer />
     </>
   );
