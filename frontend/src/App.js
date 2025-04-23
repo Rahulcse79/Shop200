@@ -49,6 +49,7 @@ import SellerForgotPassword from "./components/Seller/SellerForgotPassword";
 import SellerResetPassword from "./components/Seller/SellerResetPassword";
 import SellerDashboard from "./components/Seller/SellerDashBoard";
 import SellerProtectedRoute from './Routes/SellerProtectedRoute';
+import CreateStore from './components/Seller/OnBoarding/CreateStore';
 
 function App() {
 
@@ -82,7 +83,7 @@ function App() {
     if (e.ctrlKey && e.shiftKey && e.keyCode === 73) e.preventDefault();
     if (e.ctrlKey && e.shiftKey && e.keyCode === 74) e.preventDefault();
   });
-  
+
   return (
     <>
       <Header />
@@ -112,6 +113,12 @@ function App() {
         <Route path="/seller/dashboard" element={
           <SellerProtectedRoute>
             <SellerDashboard />
+          </SellerProtectedRoute>
+        } ></Route>
+
+        <Route path="/seller/createstore" element={
+          <SellerProtectedRoute>
+            <CreateStore />
           </SellerProtectedRoute>
         } ></Route>
 
@@ -148,7 +155,7 @@ function App() {
           </ProtectedRoute>
         } ></Route>
 
-        <Route path="/orders" element={ 
+        <Route path="/orders" element={
           <ProtectedRoute>
             <MyOrders />
           </ProtectedRoute>
