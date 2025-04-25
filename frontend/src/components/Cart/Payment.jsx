@@ -50,75 +50,36 @@ const Payment = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
-
-        // paymentBtn.current.disabled = true;
+    
         setPayDisable(true);
-
+    
         try {
             const config = {
                 headers: {
                     "Content-Type": "application/json",
                 },
             };
-
+    
             const { data } = await axios.post(
                 '/api/v1/payment/process',
                 paymentData,
                 config,
             );
-
+    
             let info = {
                 action: "https://securegw-stage.paytm.in/order/process",
                 params: data.paytmParams
             }
-
-            post(info)
-
-            // if (!stripe || !elements) return;
-
-            // const result = await stripe.confirmCardPayment(client_secret, {
-            //     payment_method: {
-            //         card: elements.getElement(CardNumberElement),
-            //         billing_details: {
-            //             name: user.name,
-            //             email: user.email,
-            //             address: {
-            //                 line1: shippingInfo.address,
-            //                 city: shippingInfo.city,
-            //                 country: shippingInfo.country,
-            //                 state: shippingInfo.state,
-            //                 postal_code: shippingInfo.pincode,
-            //             },
-            //         },
-            //     },
-            // });
-
-            // if (result.error) {
-            //     paymentBtn.current.disabled = false;
-            //     enqueueSnackbar(result.error.message, { variant: "error" });
-            // } else {
-            //     if (result.paymentIntent.status === "succeeded") {
-
-            //         order.paymentInfo = {
-            //             id: result.paymentIntent.id,
-            //             status: result.paymentIntent.status,
-            //         };
-
-            //         dispatch(newOrder(order));
-            //         dispatch(emptyCart());
-
-            //         navigate("/order/success");
-            //     } else {
-            //         enqueueSnackbar("Processing Payment Failed!", { variant: "error" });
-            //     }
-            // }
-
+    
+            post(info);
+    
         } catch (error) {
-            // paymentBtn.current.disabled = false;
             setPayDisable(false);
-            enqueueSnackbar(error, { variant: "error" });
+            const errorMessage = error.response?.data?.message || "An unexpected error occurred.";
+            enqueueSnackbar(errorMessage, { variant: "error" });
         }
     };
+    
 
     useEffect(() => {
         if (error) {

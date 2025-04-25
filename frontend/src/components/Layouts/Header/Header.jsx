@@ -93,7 +93,7 @@ const Header = () => {
             <Link to="/cart" className="flex items-center text-white font-medium gap-2 relative">
               <span><ShoppingCartIcon /></span>
               {cartItems.length > 0 &&
-                <div className="w-5 h-5 p-2 bg-red-500 text-xs rounded-full absolute -top-2 left-3 flex justify-center items-center border">
+                <div className="w-5 h-5 p-2 bg-blue-500 text-xs rounded-full absolute -top-2 left-3 flex justify-center items-center border">
                   {cartItems.length}
                 </div>
               }

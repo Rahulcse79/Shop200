@@ -59,7 +59,7 @@ const SellerBankAccountADDForm = () => {
             return;
         }
 
-        setOnboardingSteps([]);
+      
 
         console.log("Form submitted with:", {
             holderName,
@@ -204,7 +204,7 @@ const SellerBankAccountADDForm = () => {
                                     <div className="flex flex-col sm:flex-row justify-center sm:gap-6 gap-3 mt-4">
                                         <button
                                             type="button"
-                                            onClick={() => navigate("/seller/bank-account")}
+                                            onClick={() => navigate("/seller/create-store")}
                                             className="bg-gray-600 hover:bg-gray-700 text-white py-3 px-8 rounded-md shadow-md font-medium"
                                         >
                                             prev

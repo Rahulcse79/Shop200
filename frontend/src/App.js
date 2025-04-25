@@ -51,6 +51,7 @@ import SellerDashboard from "./components/Seller/SellerDashBoard";
 import SellerProtectedRoute from './Routes/SellerProtectedRoute';
 import CreateStore from './components/Seller/OnBoarding/CreateStore';
 import SellerBankAccountADDForm from './components/Seller/OnBoarding/BankAccountSetup';
+import BusinessInfo from './components/Seller/OnBoarding/BusinessInformation';
 
 function App() {
 
@@ -126,6 +127,12 @@ function App() {
         <Route path="/seller/bank-account" element={
           < SellerProtectedRoute >
             <SellerBankAccountADDForm />
+          </ SellerProtectedRoute>
+        } ></Route>
+
+        <Route path="/seller/business-info" element={
+          < SellerProtectedRoute >
+            <BusinessInfo />
           </ SellerProtectedRoute>
         } ></Route>
 

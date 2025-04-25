@@ -29,10 +29,10 @@ const { v4: uuidv4 } = require('uuid');
 exports.processPayment = asyncErrorHandler(async (req, res, next) => {
 
     const { amount, email, phoneNo } = req.body;
+    console.log(req.body)
 
     var params = {};
 
-    /* initialize an array */
     params["MID"] = process.env.PAYTM_MID;
     params["WEBSITE"] = process.env.PAYTM_WEBSITE;
     params["CHANNEL_ID"] = process.env.PAYTM_CHANNEL_ID;

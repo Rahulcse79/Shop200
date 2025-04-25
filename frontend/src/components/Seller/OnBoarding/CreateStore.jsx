@@ -23,7 +23,6 @@ const CreateStore = () => {
     const [GSTNumber, setGSTNumber] = useState('');
     const [storeDescription, setStoreDescription] = useState('');
     const [onboardingSteps, setOnboardingSteps] = useState([2, 0, 0, 0, 0, 0]);
-
     const { loading } = useSelector(state => state.seller);
 
     const handleLogoChange = (e) => {
@@ -71,7 +70,7 @@ const CreateStore = () => {
             return;
         }
 
-        setOnboardingSteps([]);
+       
 
         console.log("Form submitted with:", {
             storeName,
