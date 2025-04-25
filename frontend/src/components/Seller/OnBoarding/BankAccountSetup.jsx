@@ -17,7 +17,6 @@ const SellerBankAccountADDForm = () => {
     const [previewLogo, setPreviewLogo] = useState(null);
     const [IFSCCode, setIFSCCode] = useState('');
     const [UPIID, setUPIID] = useState('');
-    const [PANNumber, setPANNumber] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
     const [accountType, setAccountType] = useState('');
     const [onboardingSteps, setOnboardingSteps] = useState([2, 1, 0, 0, 0, 0]);
@@ -54,12 +53,10 @@ const SellerBankAccountADDForm = () => {
             return;
         }
 
-        if (!holderName || !bankName || !accountNumber || !logoFile || !IFSCCode || !PANNumber ) {
+        if (!holderName || !bankName || !accountNumber || !logoFile || !IFSCCode ) {
             enqueueSnackbar("Please fill all the required fields.", { variant: "success" });
             return;
         }
-
-      
 
         console.log("Form submitted with:", {
             holderName,
@@ -68,7 +65,6 @@ const SellerBankAccountADDForm = () => {
             logoFile,
             IFSCCode,
             UPIID,
-            PANNumber,
             mobileNumber,
             accountType
         });
@@ -168,13 +164,6 @@ const SellerBankAccountADDForm = () => {
                                             label="Mobile Number"
                                             value={mobileNumber}
                                             setValue={setMobileNumber}
-                                            required
-                                        />
-                                        <InputField
-                                            label="PAN Number"
-                                            value={PANNumber}
-                                            setValue={setPANNumber}
-                                            type="text"
                                             required
                                         />
                                     </div>

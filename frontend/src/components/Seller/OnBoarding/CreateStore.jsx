@@ -70,8 +70,6 @@ const CreateStore = () => {
             return;
         }
 
-       
-
         console.log("Form submitted with:", {
             storeName,
             storeEmail,

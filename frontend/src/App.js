@@ -52,6 +52,7 @@ import SellerProtectedRoute from './Routes/SellerProtectedRoute';
 import CreateStore from './components/Seller/OnBoarding/CreateStore';
 import SellerBankAccountADDForm from './components/Seller/OnBoarding/BankAccountSetup';
 import BusinessInfo from './components/Seller/OnBoarding/BusinessInformation';
+import DocumentUpload from './components/Seller/OnBoarding/DocumentUpload';
 
 function App() {
 
@@ -133,6 +134,12 @@ function App() {
         <Route path="/seller/business-info" element={
           < SellerProtectedRoute >
             <BusinessInfo />
+          </ SellerProtectedRoute>
+        } ></Route>
+
+        <Route path="/seller/upload-documents" element={
+          < SellerProtectedRoute >
+            <DocumentUpload />
           </ SellerProtectedRoute>
         } ></Route>
 
