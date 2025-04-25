@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const DocumentUpload = () => {
+    
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
 

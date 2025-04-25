@@ -53,6 +53,11 @@ import CreateStore from './components/Seller/OnBoarding/CreateStore';
 import SellerBankAccountADDForm from './components/Seller/OnBoarding/BankAccountSetup';
 import BusinessInfo from './components/Seller/OnBoarding/BusinessInformation';
 import DocumentUpload from './components/Seller/OnBoarding/DocumentUpload';
+import SellerVerification from './components/Seller/OnBoarding/Verification';
+import ReadyToSell from './components/Seller/OnBoarding/ReadyToSell';
+import SellerAddProducts from './components/Seller/Products/AddProducts';
+import SellerProtectedDashboard from './components/Seller/Products/Dashboard';
+import SellerProducts from './components/Seller/Products/Products';
 
 function App() {
 
@@ -140,6 +145,34 @@ function App() {
         <Route path="/seller/upload-documents" element={
           < SellerProtectedRoute >
             <DocumentUpload />
+          </ SellerProtectedRoute>
+        } ></Route>
+
+        <Route path="/seller/verification" element={
+          < SellerProtectedRoute >
+            <SellerVerification />
+          </ SellerProtectedRoute>
+        } ></Route>
+
+        <Route path="/seller/ready-to-sell" element={
+          < SellerProtectedRoute >
+            <ReadyToSell />
+          </ SellerProtectedRoute>
+        } ></Route>
+
+        <Route path="/seller/new_product" element={
+          < SellerProtectedRoute >
+            <SellerProtectedDashboard activeTab={3}>
+              <SellerAddProducts />
+            </SellerProtectedDashboard>
+          </ SellerProtectedRoute>
+        } ></Route>
+
+        <Route path="/seller/products" element={
+          < SellerProtectedRoute >
+            <SellerProtectedDashboard activeTab={2}>
+              <SellerProducts />
+            </SellerProtectedDashboard>
           </ SellerProtectedRoute>
         } ></Route>
 

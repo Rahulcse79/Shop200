@@ -28,19 +28,24 @@ const SellerPrimaryDropDownMenu = ({ setTogglePrimaryDropDown, seller }) => {
 
     const navs = [
         {
-            title: "Create order",
+            title: "New product",
             icon: <AddShoppingCartIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/",
+            redirect: "/seller/new_product",
         },
         {
-            title: "Orders",
+            title: "Products",
             icon: <ListAltIcon sx={{ fontSize: "18px" }} />,
-            redirect: "/",
+            redirect: "/seller/products",
         },
         {
             title: "Delivered order",
             icon: <DoneAllIcon sx={{ fontSize: "18px" }} />,
             redirect: "/",
+        },
+        {
+            title: "Orders",
+            icon: <DoneAllIcon sx={{ fontSize: "18px" }} />,
+            redirect: "/seller/orders",
         },
         {
             title: "My Chats",
