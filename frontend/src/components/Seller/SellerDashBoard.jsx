@@ -9,8 +9,7 @@ import Loader from '../Layouts/Loader';
 const Dashboard = () => { 
 
     const navigate = useNavigate();
-    const { seller, loading, isAuthenticated } = useSelector(state => state.seller);
-    const onboardingSteps = [0, 0, 0, 0, 0, 0];
+    const { seller, loading, isAuthenticated, payloadSellerData } = useSelector(state => state.seller);
 
     useEffect(() => {
         if (isAuthenticated === false) {
@@ -31,13 +30,13 @@ const Dashboard = () => {
 
                 {loading ? <Loader /> :
                     <>
-                        <SellerOnBoarding steps={onboardingSteps} />
-                        <main className="w-full mt-12 sm:mt-0">
+                        {(payloadSellerData.onBoarding[5] !== 1) && <SellerOnBoarding steps={payloadSellerData.onBoarding} />}
+                        <main className="w-full mt-12 sm:mt-24">
 
                             {/* <!-- row --> */}
                             <div className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
 
-                                <Sidebar activeTab={"profile"} />
+                                <Sidebar activeTab={"profile"} /> 
 
                                 {/* <!-- details column --> */}
                                 <div className="flex-1 overflow-hidden shadow bg-white">

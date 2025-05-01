@@ -42,7 +42,7 @@ const Account = () => {
                                 {/* <!-- edit info container --> */}
                                 <div className="flex flex-col gap-12 m-4 sm:mx-8 sm:my-6">
                                     {/* <!-- personal info --> */}
-                                    <div className="flex flex-col gap-5 items-start">
+                                    <div className="flex flex-col gap-5 items-start"> 
                                         <span className="font-medium text-lg">Personal Information <Link to="/account/update" className="text-sm text-primary-blue font-medium ml-8 cursor-pointer">Edit</Link></span>
 
                                         <div className="flex flex-col sm:flex-row items-center gap-3" id="personalInputs">

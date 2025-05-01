@@ -15,7 +15,6 @@ const SellerOnBoarding = ({ steps }) => {
       <div className="flex items-center justify-between p-4 relative">
         {categories.map((el, i) => (
           <div key={el.title} className="flex flex-col items-center flex-1 relative">
-            {/* Title */}
             <Link
               to={el.link}
               className={`text-sm font-medium p-2 z-10 ${
@@ -28,8 +27,6 @@ const SellerOnBoarding = ({ steps }) => {
             >
               {el.title}
             </Link>
-
-            {/* Connecting Line */}
             {i < categories.length && (
               <div className="absolute bottom-0 left-1/2 w-full h-0.5 -translate-x-1/2 z-0">
                 <div

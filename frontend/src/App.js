@@ -48,7 +48,7 @@ import SellerRegister from "./components/Seller/SellerRegister";
 import SellerForgotPassword from "./components/Seller/SellerForgotPassword";
 import SellerResetPassword from "./components/Seller/SellerResetPassword";
 import SellerDashboard from "./components/Seller/SellerDashBoard";
-import SellerProtectedRoute from './Routes/SellerProtectedRoute';
+import { SellerProtectedRoute, SellerOnBoardingProtectedRoute } from './Routes/SellerProtectedRoute';
 import CreateStore from './components/Seller/OnBoarding/CreateStore';
 import SellerBankAccountADDForm from './components/Seller/OnBoarding/BankAccountSetup';
 import BusinessInfo from './components/Seller/OnBoarding/BusinessInformation';
@@ -125,39 +125,39 @@ function App() {
         } ></Route>
 
         <Route path="/seller/create-store" element={
-          < SellerProtectedRoute >
+          < SellerOnBoardingProtectedRoute >
             <CreateStore />
-          </SellerProtectedRoute>
+          </SellerOnBoardingProtectedRoute> 
         } ></Route >
 
         <Route path="/seller/bank-account" element={
-          < SellerProtectedRoute >
+          < SellerOnBoardingProtectedRoute >
             <SellerBankAccountADDForm />
-          </ SellerProtectedRoute>
+          </ SellerOnBoardingProtectedRoute>
         } ></Route>
 
         <Route path="/seller/business-info" element={
-          < SellerProtectedRoute >
+          < SellerOnBoardingProtectedRoute >
             <BusinessInfo />
-          </ SellerProtectedRoute>
+          </ SellerOnBoardingProtectedRoute>
         } ></Route>
 
         <Route path="/seller/upload-documents" element={
-          < SellerProtectedRoute >
+          < SellerOnBoardingProtectedRoute >
             <DocumentUpload />
-          </ SellerProtectedRoute>
+          </ SellerOnBoardingProtectedRoute>
         } ></Route>
 
         <Route path="/seller/verification" element={
-          < SellerProtectedRoute >
+          < SellerOnBoardingProtectedRoute >
             <SellerVerification />
-          </ SellerProtectedRoute>
+          </ SellerOnBoardingProtectedRoute>
         } ></Route>
 
         <Route path="/seller/ready-to-sell" element={
-          < SellerProtectedRoute >
+          < SellerOnBoardingProtectedRoute >
             <ReadyToSell />
-          </ SellerProtectedRoute>
+          </ SellerOnBoardingProtectedRoute>
         } ></Route>
 
         <Route path="/seller/new_product" element={
