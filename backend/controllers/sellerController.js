@@ -261,6 +261,12 @@ exports.updateProfile = asyncErrorHandler(async (req, res, next) => {
         }
     }
 
+    const sellerData = await SellerData.findOne({ email: req.seller.email });
+    if (sellerData) {
+        sellerData.email = newSellerData.email;
+        await sellerData.save();
+    }
+
     await Seller.findByIdAndUpdate(req.seller.id, newSellerData, {
         new: true,
         runValidators: true,

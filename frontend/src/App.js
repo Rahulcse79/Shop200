@@ -58,6 +58,7 @@ import ReadyToSell from './components/Seller/OnBoarding/ReadyToSell';
 import SellerAddProducts from './components/Seller/Products/AddProducts';
 import SellerProtectedDashboard from './components/Seller/Products/Dashboard';
 import SellerProducts from './components/Seller/Products/Products';
+import SellerUpdateProfile from './components/Seller/UpdateProfile';
 
 function App() {
 
@@ -175,6 +176,13 @@ function App() {
             </SellerProtectedDashboard>
           </ SellerProtectedRoute>
         } ></Route>
+        
+        <Route path="/seller/dashboard/update" element={
+          < SellerProtectedRoute >
+            <SellerUpdateProfile />
+          </ SellerProtectedRoute>
+        } ></Route>
+
 
         <Route path="/shipping" element={
           <ProtectedRoute>
