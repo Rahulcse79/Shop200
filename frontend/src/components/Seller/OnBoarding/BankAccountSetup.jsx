@@ -19,9 +19,8 @@ const SellerBankAccountADDForm = () => {
     const [UPIID, setUPIID] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
     const [accountType, setAccountType] = useState('');
-    const [onboardingSteps, setOnboardingSteps] = useState([2, 1, 0, 0, 0, 0]);
 
-    const { loading } = useSelector(state => state.seller);
+    const { loading, payloadSellerData } = useSelector(state => state.seller);
 
     const handleLogoChange = (e) => {
         const file = e.target.files[0];
@@ -72,7 +71,7 @@ const SellerBankAccountADDForm = () => {
     };
 
     const getStatus = (step) => {
-        switch (onboardingSteps[step]) {
+        switch (payloadSellerData.onBoarding[step]) {
             case 1:
                 return (
                     <span className="text-green-600 font-medium border border-green-600 px-3 py-1 rounded-md text-sm">
@@ -102,7 +101,7 @@ const SellerBankAccountADDForm = () => {
 
             {loading ? <Loader /> :
                 <>
-                    <SellerOnBoarding steps={onboardingSteps} />
+                    <SellerOnBoarding steps={payloadSellerData.onBoarding} />
                     <main className="w-full mt-12 sm:mt-0">
                         <form onSubmit={handleSubmit} className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
                             <div className="flex-1 overflow-hidden shadow bg-white">

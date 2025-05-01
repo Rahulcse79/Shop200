@@ -15,7 +15,7 @@ const sendToken = (user, statusCode, res) => {
     });
 }
 
-const sendSellerToken = (user, statusCode, res) => {
+const sendSellerToken = (user, sellerData, statusCode, res) => {
     const token = user.getJWTToken();
 
     const options = {
@@ -29,6 +29,7 @@ const sendSellerToken = (user, statusCode, res) => {
         success: true,
         user,
         token,
+        sellerData,
     });
 }
 

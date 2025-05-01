@@ -1,4 +1,5 @@
 const Seller = require('../models/sellerModel');
+const SellerData = require('../models/sellerDataModel');
 const asyncErrorHandler = require('../middlewares/asyncErrorHandler');
 const { sendSellerToken } = require('../utils/sendToken');
 const ErrorHandler = require('../utils/errorHandler');
@@ -38,12 +39,13 @@ exports.registerSeller = asyncErrorHandler(async (req, res, next) => {
             },
         });
 
-        console.log("[REGISTER] New seller created:", seller.email);
+        const sellerData = await SellerData.create({
+            email
+        });
 
-        sendSellerToken(seller, 201, res);
+        sendSellerToken(seller, sellerData, 201, res);
 
     } catch (err) {
-        console.error("[REGISTER] Error occurred:", err);
         return next(new ErrorHandler("Seller registration failed", 500));
     }
 });
@@ -56,8 +58,9 @@ exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
     }
 
     const seller = await Seller.findOne({ email });
+    const sellerData = await SellerData.findOne({ email });
 
-    if (!seller) {
+    if (!seller || !sellerData ) {
         return next(new ErrorHandler("Invalid Email or seller not found.", 401));
     }
 
@@ -67,7 +70,7 @@ exports.OTPBasedLoginSeller = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Invalid OTP", 401));
     }
 
-    sendToken(seller, 201, res);
+    sendSellerToken(seller, sellerData , 201, res);
 });
 
 // Login Seller
@@ -79,8 +82,9 @@ exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
     }
 
     const seller = await Seller.findOne({ email }).select("+password");
+    const sellerData = await SellerData.findOne({ email });
 
-    if (!seller) {
+    if (!seller || !sellerData) {
         return next(new ErrorHandler("Invalid Email or Password", 401));
     }
 
@@ -90,7 +94,7 @@ exports.loginSeller = asyncErrorHandler(async (req, res, next) => {
         return next(new ErrorHandler("Invalid Email or Password", 401));
     }
 
-    sendSellerToken(seller, 201, res);
+    sendSellerToken(seller, sellerData, 201, res);
 });
 
 // Send OTP
@@ -135,10 +139,12 @@ exports.logoutSeller = asyncErrorHandler(async (req, res, next) => {
 exports.getSellerDetails = asyncErrorHandler(async (req, res, next) => {
 
     const seller = await Seller.findById(req.seller.id);
+    const sellerData = await SellerData.findOne({ email: seller.email });
 
     res.status(200).json({
         success: true,
         seller,
+        sellerData,
     });
 });
 
@@ -198,6 +204,7 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
         resetPasswordToken,
         resetPasswordExpire: { $gt: Date.now() }
     });
+    const sellerData = await SellerData.findOne({ email: seller.email });
 
     if (!seller) {
         return next(new ErrorHandler("Invalid or expired reset password token", 404));
@@ -206,7 +213,7 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
     seller.resetPasswordToken = undefined;
     seller.resetPasswordExpire = undefined;
     await seller.save();
-    sendSellerToken(seller, 200, res);
+    sendSellerToken(seller, sellerData, 200, res);
 });
 
 
@@ -214,6 +221,7 @@ exports.resetPassword = asyncErrorHandler(async (req, res, next) => {
 exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
 
     const seller = await Seller.findById(req.seller.id).select("+password");
+    const sellerData = await SellerData.findOne({ email: seller.email });
 
     const isPasswordMatched = await seller.comparePassword(req.body.oldPassword);
 
@@ -223,7 +231,7 @@ exports.updatePassword = asyncErrorHandler(async (req, res, next) => {
 
     seller.password = req.body.newPassword;
     await seller.save();
-    sendToken(seller, 201, res);
+    sendSellerToken(seller, sellerData, 201, res);
 });
 
 // Update seller Profile
@@ -326,3 +334,4 @@ exports.getSingleSeller = asyncErrorHandler(async (req, res, next) => {
         seller,
     });
 });
+

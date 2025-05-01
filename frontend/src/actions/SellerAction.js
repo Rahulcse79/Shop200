@@ -97,6 +97,7 @@ export const OTPloginSeller = (email, OTP, onSuccess, onError) => async (dispatc
         dispatch({
             type: OTP_BASED_LOGIN_SELLER_SUCCESS,
             payload: data.seller,
+            payloadSellerData: data.sellerData,
         });
 
         if (onSuccess) onSuccess(); 
@@ -105,6 +106,7 @@ export const OTPloginSeller = (email, OTP, onSuccess, onError) => async (dispatc
         dispatch({
             type: OTP_BASED_LOGIN_SELLER_FAIL,
             payload: error.response?.data?.message || error.message,
+            payloadSellerData: error.response?.data?.message || error.message,
         });
 
         if (onError) onError(error.response?.data?.message);
@@ -132,12 +134,14 @@ export const registerSeller = (sellerData) => async (dispatch) => {
         dispatch({
             type: REGISTER_SELLER_SUCCESS,
             payload: data.seller,
+            payloadSellerData: data.sellerData,
         });
 
     } catch (error) {
         dispatch({
             type: REGISTER_SELLER_FAIL,
             payload: error.response.data.message,
+            payloadSellerData: error.response.data.message,
         });
     }
 };
@@ -207,12 +211,14 @@ export const loginSeller = (email, password) => async (dispatch) => {
         dispatch({
             type: LOGIN_SELLER_SUCCESS,
             payload: data.seller,
+            payloadSellerData: data.sellerData,
         });
 
     } catch (error) {
         dispatch({
             type: LOGIN_SELLER_FAIL,
             payload: error.response.data.message,
+            payloadSellerData: error.response.data.message,
         });
     }
 };
@@ -226,11 +232,13 @@ export const loadSeller = () => async (dispatch) => {
         dispatch({
             type: LOAD_SELLER_SUCCESS,
             payload: data.seller,
+            payloadSellerData: data.sellerData,
         });
     } catch (error) {
         dispatch({
             type: LOAD_SELLER_FAIL,
             payload: error.response.data.message,
+            payloadSellerData: error.response.data.message,
         });
     }
 };
@@ -256,12 +264,14 @@ export const updatePassword = (passwords) => async (dispatch) => {
         dispatch({
             type: UPDATE_PASSWORD_SUCCESS,
             payload: data.success,
+            payloadSellerData: data.sellerData,
         });
 
     } catch (error) {
         dispatch({
             type: UPDATE_PASSWORD_FAIL,
             payload: error.response.data.message,
+            payloadSellerData: error.response.data.message,
         });
     }
 };
@@ -318,12 +328,14 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
         dispatch({
             type: RESET_PASSWORD_SUCCESS,
             payload: data.success,
+            payloadSellerData: data.sellerData,
         });
 
     } catch (error) {
         dispatch({
             type: RESET_PASSWORD_FAIL,
             payload: error.response.data.message,
+            payloadSellerData: error.response.data.message,
         });
     }
 };

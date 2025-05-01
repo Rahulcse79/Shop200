@@ -41,11 +41,12 @@ import {
     DELETE_SELLER_FAIL,
     REMOVE_SELLER_DETAILS,
     OTP_SEND_REQUEST,
-    OTP_SEND_SUCCESS,
+    OTP_SEND_SUCCESS, 
     OTP_SEND_FAIL
 } from '../constants/SellerConstants'; 
 
-export const SellerReducer = (state = { seller: {} }, { type, payload }) => {
+export const SellerReducer = (state = { seller: {} }, { type, payload, payloadSellerData }) => {
+
     switch (type) {
         case LOGIN_SELLER_REQUEST:
         case REGISTER_SELLER_REQUEST:
@@ -62,12 +63,14 @@ export const SellerReducer = (state = { seller: {} }, { type, payload }) => {
                 loading: false,
                 isAuthenticated: true,
                 seller: payload,
+                payloadSellerData: payloadSellerData,
             };
         case LOGOUT_SELLER_SUCCESS:
             return {
                 loading: false,
                 seller: null,
                 isAuthenticated: false,
+                payloadSellerData: null,
             };
         case LOGIN_SELLER_FAIL:
         case REGISTER_SELLER_FAIL:
@@ -75,6 +78,7 @@ export const SellerReducer = (state = { seller: {} }, { type, payload }) => {
                 ...state,
                 loading: false,
                 isAuthenticated: false,
+                payloadSellerData: null,
                 seller: null,
                 error: payload,
             };
@@ -82,6 +86,7 @@ export const SellerReducer = (state = { seller: {} }, { type, payload }) => {
             return {
                 loading: false,
                 isAuthenticated: false,
+                payloadSellerData: null,
                 seller: null,
                 error: payload,
             }

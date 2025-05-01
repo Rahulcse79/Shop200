@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSnackbar } from 'notistack';
 import MetaData from '../../Layouts/MetaData';
 import Loader from '../../Layouts/Loader';
@@ -6,12 +6,11 @@ import SellerOnBoarding from '../SellerOnBoarding';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const Verification = () => {
+const Verification = () => { 
 
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
-    const [onboardingSteps, setOnboardingSteps] = useState([2, 1, 2, 2, 1, 0]);
-    const { loading } = useSelector(state => state.seller);
+    const { loading, payloadSellerData } = useSelector(state => state.seller);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +19,7 @@ const Verification = () => {
     };
 
     const getStatus = (step) => {
-        switch (onboardingSteps[step]) {
+        switch (payloadSellerData.onBoarding[step]) {
             case 1:
                 return (
                     <span className="text-green-600 font-medium border border-green-600 px-3 py-1 rounded-md text-sm">
@@ -55,7 +54,7 @@ const Verification = () => {
             <MetaData title="Verification" />
             {loading ? <Loader /> :
                 <>
-                    <SellerOnBoarding steps={onboardingSteps} />
+                    <SellerOnBoarding steps={payloadSellerData.onBoarding} />
                     <main className="w-full mt-12 sm:mt-0">
                         <form onSubmit={handleSubmit} className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
                             <div className="flex-1 overflow-hidden shadow bg-white">
@@ -69,7 +68,7 @@ const Verification = () => {
                                             <h3 className="text-xl font-semibold mr-3">Your Status:</h3>
                                             {getStatus(4)}
                                         </div>
-                                        {!(onboardingSteps[4] === 1) && (<p className="mt-3 text-red-600">
+                                        {!(payloadSellerData[4] === 1) && (<p className="mt-3 text-red-600">
                                             Please note, if you have already submitted the verification request, it will be processed within 1-3 working days. Thank you for your patience.
                                         </p>)}
                                     </div>
@@ -83,7 +82,7 @@ const Verification = () => {
                                             Prev
                                         </button>
 
-                                        {(onboardingSteps[4] === 2 || onboardingSteps[4] === 0) && (
+                                        {(payloadSellerData[4] === 2 || payloadSellerData[4] === 0) && (
                                             <button
                                                 type="submit"
                                                 className="bg-red-600 hover:bg-red-700 text-white py-3 px-8 rounded-md shadow-md font-medium"
@@ -92,7 +91,7 @@ const Verification = () => {
                                             </button>
                                         )}
 
-                                        {(onboardingSteps[4] === 1) && (<button
+                                        {(payloadSellerData[4] === 1) && (<button
                                             type="button"
                                             onClick={() => navigate("/seller/ready-to-sell")}
                                             className="bg-gray-600 hover:bg-gray-700 text-white py-3 px-8 rounded-md shadow-md font-medium"
