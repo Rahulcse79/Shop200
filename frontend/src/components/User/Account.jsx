@@ -127,7 +127,7 @@ const Account = () => {
                                     {/* <!-- faqs --> */}
 
                                     {/* <!-- deactivate account --> */}
-                                    <Link className="text-sm text-primary-blue font-medium" to="/">Deactivate Account</Link>
+                                    <Link className="text-sm text-primary-blue font-medium" to="/">Permanently delete account</Link>
                                     {/* <!-- deactivate account --> */}
                                 </div>
                                 {/* <!-- edit info container --> */}

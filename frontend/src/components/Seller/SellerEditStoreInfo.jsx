@@ -6,7 +6,7 @@ import SellerOnBoarding from './SellerOnBoarding';
 import MetaData from '../Layouts/MetaData';
 import Loader from '../Layouts/Loader';
 
-const Dashboard = () => { 
+const SellerEditStoreInfo = () => { 
 
     const navigate = useNavigate();
     const { seller, loading, isAuthenticated, payloadSellerData } = useSelector(state => state.seller);
@@ -22,11 +22,6 @@ const Dashboard = () => {
         return nameArray[nameArray.length - 1];
     }
 
-    const handleDeleteAccount = (e) => {
-        e.preventDefault();
-        // dispatch(deleteSellerAccount(seller.email));
-    }
-
     return (
         <>
             <MetaData title="Seller Dashboard" />
@@ -38,7 +33,7 @@ const Dashboard = () => {
                         {(payloadSellerData.onBoarding[5] !== 1) && <SellerOnBoarding steps={payloadSellerData.onBoarding} />}
                         <main className="w-full mt-12 sm:mt-24">
                             <div className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
-                                <Sidebar activeTab={"profile"} /> 
+                                <Sidebar activeTab={"store"} /> 
                                 <div className="flex-1 overflow-hidden shadow bg-white">
                                     <div className="flex flex-col gap-12 m-4 sm:mx-8 sm:my-6">
                                         <div className="flex flex-col gap-5 items-start">
@@ -92,19 +87,7 @@ const Dashboard = () => {
 
                                         </div>
 
-                                        <div className="flex flex-col gap-4 mt-4">
-                                            <span className="font-medium text-lg mb-2">FAQS</span>
-                                            <h4 className="text-sm font-medium">What happens when I update my email address (or mobile number)?</h4>
-                                            <p className="text-sm">Your login email id (or mobile number) changes, likewise. You'll receive all your account related communication on your updated email address (or mobile number).</p>
-                                            <h4 className="text-sm font-medium">When will my Shop200 account be updated with the new email address (or mobile number)?</h4>
-                                            <p className="text-sm">It happens as soon as you confirm the verification code sent to your email (or mobile) and save the changes.</p>
-                                            <h4 className="text-sm font-medium">What happens to my existing Shop200 account when I update my email address (or mobile number)?</h4>
-                                            <p className="text-sm">Updating your email address (or mobile number) doesn't invalidate your account. Your account remains fully functional. You'll continue seeing your Order history, saved information and personal details.</p>
-                                            <h4 className="text-sm font-medium">Does my Seller account get affected when I update my email address?</h4>
-                                            <p className="text-sm">Shop200 has a 'single sign-on' policy. Any changes will reflect in your Seller account also.</p>
-                                        </div>
-                                        <Link className="text-red-600 text-lr font-medium hover:underline text-center" onClick={() => handleDeleteAccount}>Permanently delete account</Link>
-                                    </div>
+                                       </div>
 
                                     <img draggable="false" className="w-full object-contain" src="https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/myProfileFooter_4e9fe2.png" alt="footer" />
                                 </div>
@@ -117,4 +100,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard
+export default SellerEditStoreInfo

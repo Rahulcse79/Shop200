@@ -8,7 +8,7 @@ import FolderSharedIcon from '@mui/icons-material/FolderShared';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-import { logoutUser } from '../../actions/userAction';
+import { logoutSeller } from '../../actions/SellerAction';
 
 const SellerSidebar = ({ activeTab }) => {
 
@@ -19,9 +19,9 @@ const SellerSidebar = ({ activeTab }) => {
     const { seller } = useSelector(state => state.seller);
 
     const handleLogout = () => {
-        dispatch(logoutUser());
+        dispatch(logoutSeller());
         enqueueSnackbar("Logout Successfully", { variant: "success" });
-        navigate("/login");
+        navigate("/seller/login");
     }
 
     return (
@@ -40,23 +40,15 @@ const SellerSidebar = ({ activeTab }) => {
             </div>
             
             <div className="flex flex-col bg-white rounded-sm shadow">
-
-                <div className="flex items-center gap-5 px-4 py-4 border-b">
-                    <span className="text-primary-blue"><FolderIcon /></span>
-                    <Link className="flex w-full justify-between font-medium text-gray-500 hover:text-primary-blue" to="/orders">
-                        MY ORDERS
-                        <span><ChevronRightIcon /></span>
-                    </Link>
-                </div>
                 
                 <div className="flex items-center gap-5 px-4 py-4">
                     <span className="text-primary-blue"><PersonIcon /></span>
                     <p className="flex w-full justify-between font-medium text-gray-500">ACCOUNT SETTINGS</p>
                 </div>
                 <div className="flex flex-col pb-3 border-b text-sm">
-                    <Link to="/account" className={`${activeTab === "profile" ? "bg-blue-50 text-primary-blue font-medium" : "hover:bg-blue-50 hover:text-primary-blue"} p-3 pl-14`}>Profile Information</Link>
-                    <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">Manage Addresses</Link>
-                    <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">PAN Card Information</Link>
+                    <Link to="/seller/dashboard" className={`${activeTab === "profile" ? "bg-blue-50 text-primary-blue font-medium" : "hover:bg-blue-50 hover:text-primary-blue"} p-3 pl-14`}>Profile Information</Link>
+                    <Link to="/seller/edit/store" className={`${activeTab === "store" ? "bg-blue-50 text-primary-blue font-medium" : "hover:bg-blue-50 hover:text-primary-blue"} p-3 pl-14`} >Store Information</Link>
+                    <Link className="p-3 pl-14 hover:bg-blue-50 hover:text-primary-blue" to="/">Document Information</Link>
                 </div>
                
                 <div className="flex items-center gap-5 px-4 py-4">
