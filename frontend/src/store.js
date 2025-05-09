@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { forgotPasswordReducer, profileReducer, userReducer, allUsersReducer, userDetailsReducer } from './reducers/userReducer';
 import { SellerReducer, forgotPasswordSellerReducer, profileSellerReducer, allSellersReducer, sellerDetailsReducer, otpSendReducer } from './reducers/SellerReducer';
 import { newProductReducer, newReviewReducer, productDetailsReducer, productReducer, productsReducer, productReviewsReducer, reviewReducer } from './reducers/productReducer';
+import { createStoreReducer, bankAccountReducer, businessInformationReducer, documentUploadReducer, verificationReducer } from './reducers/storeReducer';
 import { cartReducer } from './reducers/cartReducer';
 import { saveForLaterReducer } from './reducers/saveForLaterReducer';
 import { allOrdersReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer, orderReducer, paymentStatusReducer } from './reducers/orderReducer';
@@ -38,6 +39,12 @@ const reducer = combineReducers({
     reviews: productReviewsReducer,
     review: reviewReducer,
     wishlist: wishlistReducer,
+    sellerCreateStore: createStoreReducer,
+    sellerBankAccount: bankAccountReducer,
+    sellerBusinessInformation: businessInformationReducer,
+    sellerDocumentUpload: documentUploadReducer,
+    sellerVerification: verificationReducer,
+    
 });
 
 let initialState = {

@@ -40,14 +40,12 @@ export const CreateStoreSetupAction = ( createStoreData ) => async (dispatch) =>
 
         dispatch({
             type: CREATE_STORE_SETUP_SUCCESS,
-            payload: data.seller,
             payloadStoreData: data.storeData,
         });
 
     } catch (error) {
         dispatch({
             type: CREATE_STORE_SETUP_FAIL,
-            payload: error.response.data.message,
             payloadStoreData: error.response.data.message,
         });
     }
@@ -73,14 +71,12 @@ export const bankAccountSetupAction = ( bankAccountData ) => async (dispatch) =>
 
         dispatch({
             type: BANK_ACCOUNT_SETUP_SUCCESS,
-            payload: data.seller,
             payloadBankAccountData: data.bankAccountData,
         });
 
     } catch (error) {
         dispatch({
             type: BANK_ACCOUNT_SETUP_FAIL,
-            payload: error.response.data.message,
             payloadStoreData: error.response.data.message,
         });
     }
@@ -106,14 +102,12 @@ export const BusinessInformationSetupAction = ( businessInfoData ) => async (dis
 
         dispatch({
             type: BUSINESS_INFORMATION_SETUP_SUCCESS,
-            payload: data.seller,
             payloadBusinessInfoData: data.businessInfoData,
         });
 
     } catch (error) {
         dispatch({
             type: BUSINESS_INFORMATION_SETUP_FAIL,
-            payload: error.response.data.message,
             payloadStoreData: error.response.data.message,
         });
     }
@@ -139,14 +133,12 @@ export const DocumentUploadSetupAction = ( documentUploadData ) => async (dispat
 
         dispatch({
             type: DOCUMENT_UPLOAD_SETUP_SUCCESS,
-            payload: data.seller,
             payloadDocumentUploadData: data.documentUploadData,
         });
 
     } catch (error) {
         dispatch({
             type: DOCUMENT_UPLOAD_SETUP_FAIL,
-            payload: error.response.data.message,
             payloadStoreData: error.response.data.message,
         });
     }
@@ -172,14 +164,12 @@ export const VerificationAction = ( verificationData ) => async (dispatch) => {
 
         dispatch({
             type: VERIFICATION_SETUP_SUCCESS,
-            payload: data.seller,
             payloadVerificationData: data.verificationData,
         });
 
     } catch (error) {
         dispatch({
             type: VERIFICATION_SETUP_FAIL,
-            payload: error.response.data.message,
             payloadStoreData: error.response.data.message,
         });
     }
