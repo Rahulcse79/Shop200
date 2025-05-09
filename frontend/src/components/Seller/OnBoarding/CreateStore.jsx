@@ -115,7 +115,7 @@ const CreateStore = () => {
         <>
             <MetaData title="Create store" />
 
-            {loading ? <Loader /> :
+            {loading ? <Loader /> : 
                 <>
                     <SellerOnBoarding steps={payloadSellerData.onBoarding} />
                     <main className="w-full mt-12 sm:mt-0">
