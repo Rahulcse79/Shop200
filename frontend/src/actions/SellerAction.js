@@ -405,7 +405,7 @@ export const updateSeller = (id, sellerData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_SELLER_FAIL,
-            payload: error.response.data.message,
+            payload: error.response.data.message, 
         });
     }
 };

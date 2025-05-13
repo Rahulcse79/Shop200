@@ -28,6 +28,7 @@ const BusinessInfo = () => {
             enqueueSnackbar("Please confirm all the business information points.", { variant: "warning" });
             return;
         }
+        // dispatch(bankAccountSetupAction(formData))
 
         enqueueSnackbar("Form submitted successfully!", { variant: "success" });
     };

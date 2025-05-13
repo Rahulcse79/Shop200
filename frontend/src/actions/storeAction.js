@@ -3,6 +3,9 @@ import {
     CREATE_STORE_SETUP_REQUEST,
     CREATE_STORE_SETUP_SUCCESS,
     CREATE_STORE_SETUP_FAIL,
+    GET_STORE_SETUP_REQUEST,
+    GET_STORE_SETUP_SUCCESS,
+    GET_STORE_SETUP_FAIL,
     BANK_ACCOUNT_SETUP_REQUEST,
     BANK_ACCOUNT_SETUP_SUCCESS,
     BANK_ACCOUNT_SETUP_FAIL,
@@ -20,17 +23,14 @@ import {
 } from '../constants/storeConstants';
 import axios from 'axios';
 
-// Create store setup action.
-export const CreateStoreSetupAction = ( createStoreData ) => async (dispatch) => {
+// Create store setup action. 
+export const CreateStoreSetupAction = (createStoreData) => async (dispatch) => {
     try {
-
         dispatch({ type: CREATE_STORE_SETUP_REQUEST });
 
         const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }
+            headers: { "Content-Type": "application/json" },
+        };
 
         const { data } = await axios.post(
             '/api/v1/seller/createStore-setup',
@@ -40,13 +40,15 @@ export const CreateStoreSetupAction = ( createStoreData ) => async (dispatch) =>
 
         dispatch({
             type: CREATE_STORE_SETUP_SUCCESS,
-            payloadStoreData: data.storeData,
+            payload: data,
         });
-
     } catch (error) {
         dispatch({
             type: CREATE_STORE_SETUP_FAIL,
-            payloadStoreData: error.response.data.message,
+            payloadStoreData:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
         });
     }
 };
@@ -178,4 +180,31 @@ export const VerificationAction = ( verificationData ) => async (dispatch) => {
 // Clear All Errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({ type: CLEAR_ERRORS });
+};
+
+// Get store setup action. 
+export const GetStoreSetupAction = (email) => async (dispatch) => {
+    try {
+        dispatch({ type: GET_STORE_SETUP_REQUEST });
+        
+        const config = {
+            headers: { "Content-Type": "application/json" },
+        };
+
+        const { data } = await axios.get(
+            `/api/v1/seller/get/createStore?email=${encodeURIComponent(email)}`,
+            config
+        );
+        console.log(email);
+        console.log(data)
+        dispatch({
+            type: GET_STORE_SETUP_SUCCESS,
+            payloadStoreData: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_STORE_SETUP_FAIL,
+            payloadStoreData: error.response?.data?.message || error.message,
+        });
+    }
 };

@@ -3,6 +3,9 @@ import {
     CREATE_STORE_SETUP_REQUEST,
     CREATE_STORE_SETUP_SUCCESS,
     CREATE_STORE_SETUP_FAIL,
+    GET_STORE_SETUP_REQUEST,
+    GET_STORE_SETUP_SUCCESS,
+    GET_STORE_SETUP_FAIL,
     BANK_ACCOUNT_SETUP_REQUEST,
     BANK_ACCOUNT_SETUP_SUCCESS,
     BANK_ACCOUNT_SETUP_FAIL,
@@ -20,25 +23,26 @@ import {
 } from '../constants/storeConstants';
 
 // Create store reducer.
-export const createStoreReducer = (state = { seller: {} }, { type, payloadStoreData }) => {
+export const createStoreReducer = (state = { seller: {} }, { type, payload }) => {
 
     switch (type) {
         case CREATE_STORE_SETUP_REQUEST:
             return {
                 loading: true,
+                isCreated: false,
             };
         case CREATE_STORE_SETUP_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                payloadStoreData: payloadStoreData,
+                isCreated: true,
             };
         case CREATE_STORE_SETUP_FAIL:
             return {
                 ...state,
                 loading: false,
-                payloadStoreData: null,
-                error: payloadStoreData,
+                isCreated: false,
+                error: payload,
             };
         case CLEAR_ERRORS:
             return {
@@ -51,7 +55,7 @@ export const createStoreReducer = (state = { seller: {} }, { type, payloadStoreD
 };
 
 // Bank account reducer.
-export const bankAccountReducer = (state = { seller: {} }, { type, bankAccountData }) => {
+export const bankAccountReducer = (state = { seller: {} }, { type, payload }) => {
 
     switch (type) {
         case BANK_ACCOUNT_SETUP_REQUEST:
@@ -62,14 +66,12 @@ export const bankAccountReducer = (state = { seller: {} }, { type, bankAccountDa
             return {
                 ...state,
                 loading: false,
-                bankAccountData: bankAccountData,
             };
         case BANK_ACCOUNT_SETUP_FAIL:
             return {
                 ...state,
                 loading: false,
-                bankAccountData: null,
-                error: bankAccountData,
+                error: payload,
             };
         case CLEAR_ERRORS:
             return {
@@ -82,7 +84,7 @@ export const bankAccountReducer = (state = { seller: {} }, { type, bankAccountDa
 };
 
 // Business information reducer.
-export const businessInformationReducer = (state = { seller: {} }, { type, businessInfoData }) => {
+export const businessInformationReducer = (state = { seller: {} }, { type, payload }) => {
 
     switch (type) {
         case BUSINESS_INFORMATION_SETUP_REQUEST:
@@ -93,14 +95,12 @@ export const businessInformationReducer = (state = { seller: {} }, { type, busin
             return {
                 ...state,
                 loading: false,
-                businessInfoData: businessInfoData,
             };
         case BUSINESS_INFORMATION_SETUP_FAIL:
             return {
                 ...state,
                 loading: false,
-                businessInfoData: null,
-                error: businessInfoData,
+                error: payload,
             };
         case CLEAR_ERRORS:
             return {
@@ -113,7 +113,7 @@ export const businessInformationReducer = (state = { seller: {} }, { type, busin
 };
 
 // Document upload reducer.
-export const documentUploadReducer = (state = { seller: {} }, { type, documentUploadData }) => {
+export const documentUploadReducer = (state = { seller: {} }, { type, payload }) => {
 
     switch (type) {
         case DOCUMENT_UPLOAD_SETUP_REQUEST:
@@ -124,14 +124,12 @@ export const documentUploadReducer = (state = { seller: {} }, { type, documentUp
             return {
                 ...state,
                 loading: false,
-                documentUploadData: documentUploadData,
             };
         case DOCUMENT_UPLOAD_SETUP_FAIL:
             return {
                 ...state,
                 loading: false,
-                documentUploadData: null,
-                error: documentUploadData,
+                error: payload,
             };
         case CLEAR_ERRORS:
             return {
@@ -144,7 +142,7 @@ export const documentUploadReducer = (state = { seller: {} }, { type, documentUp
 };
 
 // Verification reducer.
-export const verificationReducer = (state = { seller: {} }, { type, verificationData }) => {
+export const verificationReducer = (state = { seller: {} }, { type, payload }) => {
 
     switch (type) {
         case VERIFICATION_SETUP_REQUEST:
@@ -155,14 +153,42 @@ export const verificationReducer = (state = { seller: {} }, { type, verification
             return {
                 ...state,
                 loading: false,
-                verificationData: verificationData,
             };
         case VERIFICATION_SETUP_FAIL:
             return {
                 ...state,
                 loading: false,
-                verificationData: null,
-                error: verificationData,
+                error: payload,
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null,
+            };
+        default:
+            return state;
+    }
+};
+
+// Create store reducer.
+export const getStoreReducer = (state = { seller: {} }, { type, payloadStoreData }) => {
+
+    switch (type) {
+        case GET_STORE_SETUP_REQUEST:
+            return {
+                loading: true,
+            };
+        case GET_STORE_SETUP_SUCCESS:
+            return {
+                ...state,
+                payloadStoreData: payloadStoreData,
+                loading: false,
+            };
+        case GET_STORE_SETUP_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: payloadStoreData,
             };
         case CLEAR_ERRORS:
             return {

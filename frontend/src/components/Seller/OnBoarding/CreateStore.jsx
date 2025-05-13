@@ -1,17 +1,20 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MetaData from '../../Layouts/MetaData';
 import Loader from '../../Layouts/Loader';
 import SellerOnBoarding from '../SellerOnBoarding';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import BackdropLoader from '../../Layouts/BackdropLoader';
+import { CreateStoreSetupAction, clearErrors } from '../../../actions/storeAction';
 import { useSnackbar } from 'notistack';
 
 const CreateStore = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const [storeName, setStoreName] = useState('');
-    const [storeEmail, setStoreEmail] = useState('Rahulcse79@gmail.com');
+    const [storeEmail, setStoreEmail] = useState('');
     const [storeNumber, setStoreNumber] = useState('');
     const [logoFile, setLogoFile] = useState(null);
     const [previewLogo, setPreviewLogo] = useState(null);
@@ -22,7 +25,8 @@ const CreateStore = () => {
     const [taxId, setTaxId] = useState('');
     const [GSTNumber, setGSTNumber] = useState('');
     const [storeDescription, setStoreDescription] = useState('');
-    const { loading, payloadSellerData } = useSelector(state => state.seller);
+    const { loading: sellerLoading, payloadSellerData } = useSelector(state => state.seller);
+    const { error, loading: createLoading, isCreated } = useSelector(state => state.sellerCreateStore);
 
     const handleLogoChange = (e) => {
         const file = e.target.files[0];
@@ -47,15 +51,16 @@ const CreateStore = () => {
         return wordCount <= minWords;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!isValidPhoneNumber(storeNumber)) {
             enqueueSnackbar("Please enter a valid 10 digit phone number.", { variant: "error" });
             return;
         }
+
         if (!isValidIndianPincode(pincode)) {
-            enqueueSnackbar("Please enter a valid india pincode.", { variant: "error" });
+            enqueueSnackbar("Please enter a valid India pincode.", { variant: "error" });
             return;
         }
 
@@ -64,25 +69,27 @@ const CreateStore = () => {
             return;
         }
 
-        if (!storeName || !storeEmail || !storeNumber || !logoFile || !address || !country || !storeDescription) {
-            enqueueSnackbar("Please fill all the required fields.", { variant: "success" });
+        if (!storeName || !storeEmail || !storeNumber || !address || !country || !storeDescription) {
+            enqueueSnackbar("Please fill all the required fields.", { variant: "error" });
             return;
         }
 
-        console.log("Form submitted with:", {
-            storeName,
-            storeEmail,
-            storeNumber,
-            logoFile,
-            address,
-            pincode,
-            country,
-            businessReg,
-            taxId,
-            GSTNumber,
-            storeDescription,
-        });
-        enqueueSnackbar("Form submitted successfully!", { variant: "success" });
+        const formData = new FormData();
+        formData.set("storeName", storeName);
+        formData.set("storeEmail", storeEmail);
+        formData.set("storeNumber", storeNumber);
+        formData.set("address", address);
+        formData.set("pincode", pincode);
+        formData.set("country", country);
+        formData.set("businessReg", businessReg);
+        formData.set("taxId", taxId);
+        formData.set("GSTNumber", GSTNumber);
+        formData.set("storeDescription", storeDescription);
+        if (logoFile) {
+            formData.append("logo", previewLogo);
+        }
+
+        dispatch(CreateStoreSetupAction(formData))
     };
 
     const getStatus = (step) => {
@@ -110,14 +117,38 @@ const CreateStore = () => {
         }
     };
 
+    useEffect(() => {
+        setStoreName(payloadSellerData.storeName || '')
+        setStoreEmail(payloadSellerData.email || '');
+        setStoreNumber(payloadSellerData.storeNumber || '');
+        setAddress(payloadSellerData.address || '');
+        setPincode(payloadSellerData.pincode || '');
+        setCountry(payloadSellerData.country || '');
+        setBusinessReg(payloadSellerData.businessReg || '');
+        setTaxId(payloadSellerData.taxId || '');
+        setGSTNumber(payloadSellerData.GSTNumber || '');
+        setStoreDescription(payloadSellerData.storeDescription || '');
+        const tempLogo = payloadSellerData.logo?.[0]?.url || '';
+        if (tempLogo) {
+            setPreviewLogo(tempLogo);
+        }
+        if (error) {
+            enqueueSnackbar(error, { variant: "error" });
+            dispatch(clearErrors());
+        }
+        if (isCreated) {
+            enqueueSnackbar("Create store Updated or created Successfully", { variant: "success" });
+        }
+    }, [dispatch, error, isCreated, navigate, enqueueSnackbar]);
 
     return (
         <>
             <MetaData title="Create store" />
 
-            {loading ? <Loader /> : 
+            {sellerLoading ? <Loader /> :
                 <>
                     <SellerOnBoarding steps={payloadSellerData.onBoarding} />
+                    {(createLoading) ? <BackdropLoader /> : null}
                     <main className="w-full mt-12 sm:mt-0">
                         <form onSubmit={handleSubmit} className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
                             <div className="flex-1 overflow-hidden shadow bg-white">
@@ -220,7 +251,6 @@ const CreateStore = () => {
                                                 accept=".png,.jpg,.jpeg"
                                                 onChange={handleLogoChange}
                                                 className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-600 file:text-white hover:file:bg-red-700"
-                                                required
                                             />
                                             {previewLogo && (
                                                 <img
