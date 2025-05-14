@@ -1,14 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MetaData from '../../Layouts/MetaData';
 import Loader from '../../Layouts/Loader';
 import SellerOnBoarding from '../SellerOnBoarding';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import { bankAccountSetupAction, clearErrors } from '../../../actions/storeAction';
+import { BANK_ACCOUNT_SETUP_RESET } from "../../../constants/storeConstants";
+import BackdropLoader from '../../Layouts/BackdropLoader';
 
 const SellerBankAccountADDForm = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const [holderName, setHolderName] = useState('');
     const [bankName, setBankName] = useState('');
@@ -21,6 +25,29 @@ const SellerBankAccountADDForm = () => {
     const [accountType, setAccountType] = useState('');
 
     const { loading, payloadSellerData } = useSelector(state => state.seller);
+    const { error, loading: saveLoading, isCreated } = useSelector(state => state.sellerBankAccount);
+
+    useEffect(() => {
+        setHolderName(payloadSellerData.holderName || '')
+        setBankName(payloadSellerData.bankName || '');
+        setAccountNumber(payloadSellerData.accountNumber || '');
+        setIFSCCode(payloadSellerData.IFSCCode || '');
+        setUPIID(payloadSellerData.UPIID || '');
+        setMobileNumber(payloadSellerData.mobileNumber || '');
+        setAccountType(payloadSellerData.accountType || '');
+        const tempLogo = payloadSellerData.bankLogo?.[0]?.url || '';
+        if (tempLogo) {
+            setPreviewLogo(tempLogo);
+        }
+        if (error) {
+            enqueueSnackbar(error, { variant: "error" });
+            dispatch(clearErrors());
+        }
+        if (isCreated) {
+            enqueueSnackbar("Bank account Updated or created Successfully", { variant: "success" });
+            dispatch({ type: BANK_ACCOUNT_SETUP_RESET });
+        }
+    }, [dispatch, error, isCreated, enqueueSnackbar]);
 
     const handleLogoChange = (e) => {
         const file = e.target.files[0];
@@ -37,8 +64,8 @@ const SellerBankAccountADDForm = () => {
     };
 
     const isValidIndianUPIID = (UPIID) => {
-        return /^[1-9][0-9]{5}$/.test(UPIID);
-    };
+        return /^[1-9][0-9]{5,14}@[a-zA-Z]{2,6}$/.test(UPIID);
+    };    
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -52,22 +79,26 @@ const SellerBankAccountADDForm = () => {
             return;
         }
 
-        if (!holderName || !bankName || !accountNumber || !logoFile || !IFSCCode ) {
+        if (!holderName || !bankName || !accountNumber || !logoFile || !IFSCCode) {
             enqueueSnackbar("Please fill all the required fields.", { variant: "success" });
             return;
         }
 
-        console.log("Form submitted with:", {
-            holderName,
-            bankName,
-            accountNumber,
-            logoFile,
-            IFSCCode,
-            UPIID,
-            mobileNumber,
-            accountType
-        });
-        enqueueSnackbar("Form submitted successfully!", { variant: "success" });
+        const formData = new FormData();
+        formData.set("holderName", holderName);
+        formData.set("bankName", bankName);
+        formData.set("accountNumber", accountNumber);
+        formData.set("IFSCCode", IFSCCode);
+        formData.set("UPIID", UPIID);
+        formData.set("mobileNumber", mobileNumber);
+        formData.set("accountType", accountType);
+        formData.set("email", payloadSellerData.email);
+
+        if (logoFile) {
+            formData.append("bankLogo", logoFile);
+        }
+
+        dispatch(bankAccountSetupAction(formData))
     };
 
     const getStatus = (step) => {
@@ -102,6 +133,7 @@ const SellerBankAccountADDForm = () => {
             {loading ? <Loader /> :
                 <>
                     <SellerOnBoarding steps={payloadSellerData.onBoarding} />
+                    {(saveLoading) ? <BackdropLoader /> : null}
                     <main className="w-full mt-12 sm:mt-0">
                         <form onSubmit={handleSubmit} className="flex gap-3.5 sm:w-11/12 sm:mt-4 m-auto mb-7">
                             <div className="flex-1 overflow-hidden shadow bg-white">
@@ -150,13 +182,22 @@ const SellerBankAccountADDForm = () => {
                                             type="text"
                                             required
                                         />
-                                        <InputField
-                                            label="Account Type"
-                                            value={accountType}
-                                            setValue={setAccountType}
-                                            type="text"
-                                            required
-                                        />
+                                        <div className="w-full">
+                                            <label className="block text-sm font-medium text-gray-600 mb-1">
+                                                Account Type <span className="text-red-500">*</span>
+                                            </label>
+                                            <select
+                                                value={accountType}
+                                                onChange={(e) => setAccountType(e.target.value)}
+                                                required
+                                                className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 bg-white focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 "
+                                            >
+                                                <option value="" disabled>Select account type</option>
+                                                <option value="Savings">Savings</option>
+                                                <option value="Current">Current</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div className="flex gap-5 flex-col sm:flex-row">
                                         <InputField

@@ -6,6 +6,7 @@ import SellerOnBoarding from '../SellerOnBoarding';
 import { useSelector, useDispatch } from 'react-redux';
 import BackdropLoader from '../../Layouts/BackdropLoader';
 import { CreateStoreSetupAction, clearErrors } from '../../../actions/storeAction';
+import { CREATE_STORE_SETUP_RESET } from "../../../constants/storeConstants";
 import { useSnackbar } from 'notistack';
 
 const CreateStore = () => {
@@ -14,7 +15,7 @@ const CreateStore = () => {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const [storeName, setStoreName] = useState('');
-    const [storeEmail, setStoreEmail] = useState('');
+    const [email, setEmail] = useState('');
     const [storeNumber, setStoreNumber] = useState('');
     const [logoFile, setLogoFile] = useState(null);
     const [previewLogo, setPreviewLogo] = useState(null);
@@ -69,14 +70,14 @@ const CreateStore = () => {
             return;
         }
 
-        if (!storeName || !storeEmail || !storeNumber || !address || !country || !storeDescription) {
+        if (!storeName || !storeNumber || !address || !country || !storeDescription) {
             enqueueSnackbar("Please fill all the required fields.", { variant: "error" });
             return;
         }
 
         const formData = new FormData();
         formData.set("storeName", storeName);
-        formData.set("storeEmail", storeEmail);
+        formData.set("email", payloadSellerData.email);
         formData.set("storeNumber", storeNumber);
         formData.set("address", address);
         formData.set("pincode", pincode);
@@ -119,7 +120,7 @@ const CreateStore = () => {
 
     useEffect(() => {
         setStoreName(payloadSellerData.storeName || '')
-        setStoreEmail(payloadSellerData.email || '');
+        setEmail(payloadSellerData.email || '');
         setStoreNumber(payloadSellerData.storeNumber || '');
         setAddress(payloadSellerData.address || '');
         setPincode(payloadSellerData.pincode || '');
@@ -138,8 +139,9 @@ const CreateStore = () => {
         }
         if (isCreated) {
             enqueueSnackbar("Create store Updated or created Successfully", { variant: "success" });
+            dispatch({ type: CREATE_STORE_SETUP_RESET });
         }
-    }, [dispatch, error, isCreated, navigate, enqueueSnackbar]);
+    }, [dispatch, error, isCreated, enqueueSnackbar]);
 
     return (
         <>
@@ -166,10 +168,10 @@ const CreateStore = () => {
                                         />
                                         <InputField
                                             label="Email"
-                                            value={storeEmail}
-                                            setValue={setStoreEmail}
+                                            value={email}
+                                            setValue={setEmail}
                                             type="email"
-                                            required
+                                            disabled={true}
                                         />
                                     </div>
                                     <div className="w-full">
@@ -303,7 +305,14 @@ const CreateStore = () => {
     );
 };
 
-const InputField = ({ label, value, setValue, type = "text", required = false }) => (
+const InputField = ({
+    label,
+    value,
+    setValue,
+    type = "text",
+    required = false,
+    disabled = false,
+}) => (
     <div className="w-full">
         <label className="block text-sm font-medium text-gray-600 mb-1">
             {label} {required && <span className="text-red-500">*</span>}
@@ -312,11 +321,13 @@ const InputField = ({ label, value, setValue, type = "text", required = false })
             type={type}
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-blue focus:ring-1 focus:ring-primary-blue"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-primary-blue focus:ring-1 focus:ring-primary-blue disabled:bg-gray-100 disabled:cursor-not-allowed"
             placeholder={`Enter ${label.toLowerCase()}`}
             required={required}
+            disabled={disabled}
         />
     </div>
 );
+
 
 export default CreateStore;

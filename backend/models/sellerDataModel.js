@@ -60,6 +60,45 @@ const sellerSchema = new mongoose.Schema({
             }
         }
     ],
+    bankLogo: {
+        public_id: {
+            type: String,
+            required: true
+        },
+        url: {
+            type: String,
+            required: true
+        }
+    },
+    holderName: {
+        type: String,
+        trim: true
+    },
+    bankName: {
+        type: String,
+        trim: true
+    },
+    accountNumber: {
+        type: String,
+        trim: true
+    },
+    IFSCCode: {
+        type: String,
+        trim: true,
+    },
+    UPIID: {
+        type: String,
+        trim: true
+    },
+    mobileNumber: {
+        type: String,
+        match: [/^\d{10}$/, "Please enter a valid 10-digit mobile number"]
+    },
+    accountType: {
+        type: String,
+        enum: ["Savings", "Current", "Other"],
+        default: "Savings"
+    },
     onBoarding: {
         type: [Number],
         default: [0, 0, 0, 0, 0, 0],

@@ -3,9 +3,6 @@ import {
     CREATE_STORE_SETUP_REQUEST,
     CREATE_STORE_SETUP_SUCCESS,
     CREATE_STORE_SETUP_FAIL,
-    GET_STORE_SETUP_REQUEST,
-    GET_STORE_SETUP_SUCCESS,
-    GET_STORE_SETUP_FAIL,
     BANK_ACCOUNT_SETUP_REQUEST,
     BANK_ACCOUNT_SETUP_SUCCESS,
     BANK_ACCOUNT_SETUP_FAIL,
@@ -18,6 +15,9 @@ import {
     VERIFICATION_SETUP_REQUEST,
     VERIFICATION_SETUP_SUCCESS,
     VERIFICATION_SETUP_FAIL,
+    GET_STORE_REQUEST,
+    GET_STORE_SUCCESS,
+    GET_STORE_FAIL,
     CLEAR_ERRORS
 
 } from '../constants/storeConstants';
@@ -45,10 +45,7 @@ export const CreateStoreSetupAction = (createStoreData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: CREATE_STORE_SETUP_FAIL,
-            payloadStoreData:
-                error.response && error.response.data.message
-                    ? error.response.data.message
-                    : error.message,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
         });
     }
 };
@@ -73,13 +70,13 @@ export const bankAccountSetupAction = ( bankAccountData ) => async (dispatch) =>
 
         dispatch({
             type: BANK_ACCOUNT_SETUP_SUCCESS,
-            payloadBankAccountData: data.bankAccountData,
+            payload: data,
         });
 
     } catch (error) {
         dispatch({
             type: BANK_ACCOUNT_SETUP_FAIL,
-            payloadStoreData: error.response.data.message,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
         });
     }
 };
@@ -104,13 +101,13 @@ export const BusinessInformationSetupAction = ( businessInfoData ) => async (dis
 
         dispatch({
             type: BUSINESS_INFORMATION_SETUP_SUCCESS,
-            payloadBusinessInfoData: data.businessInfoData,
+            payload: data,
         });
 
     } catch (error) {
         dispatch({
             type: BUSINESS_INFORMATION_SETUP_FAIL,
-            payloadStoreData: error.response.data.message,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
         });
     }
 };
@@ -135,13 +132,13 @@ export const DocumentUploadSetupAction = ( documentUploadData ) => async (dispat
 
         dispatch({
             type: DOCUMENT_UPLOAD_SETUP_SUCCESS,
-            payloadDocumentUploadData: data.documentUploadData,
+            payload: data,
         });
 
     } catch (error) {
         dispatch({
             type: DOCUMENT_UPLOAD_SETUP_FAIL,
-            payloadStoreData: error.response.data.message,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
         });
     }
 };
@@ -166,13 +163,38 @@ export const VerificationAction = ( verificationData ) => async (dispatch) => {
 
         dispatch({
             type: VERIFICATION_SETUP_SUCCESS,
-            payloadVerificationData: data.verificationData,
+            payload: data,
         });
 
     } catch (error) {
         dispatch({
             type: VERIFICATION_SETUP_FAIL,
-            payloadStoreData: error.response.data.message,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
+        });
+    }
+};
+
+// Get store action. 
+export const GetStoreAction = (email) => async (dispatch) => {
+    try {
+        dispatch({ type: GET_STORE_REQUEST });
+        
+        const config = {
+            headers: { "Content-Type": "application/json" },
+        };
+
+        const { data } = await axios.get(
+            `/api/v1/seller/admin/get/storeData?email=${encodeURIComponent(email)}`,
+            config
+        );
+        dispatch({
+            type: GET_STORE_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_STORE_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message,
         });
     }
 };
@@ -180,31 +202,4 @@ export const VerificationAction = ( verificationData ) => async (dispatch) => {
 // Clear All Errors
 export const clearErrors = () => async (dispatch) => {
     dispatch({ type: CLEAR_ERRORS });
-};
-
-// Get store setup action. 
-export const GetStoreSetupAction = (email) => async (dispatch) => {
-    try {
-        dispatch({ type: GET_STORE_SETUP_REQUEST });
-        
-        const config = {
-            headers: { "Content-Type": "application/json" },
-        };
-
-        const { data } = await axios.get(
-            `/api/v1/seller/get/createStore?email=${encodeURIComponent(email)}`,
-            config
-        );
-        console.log(email);
-        console.log(data)
-        dispatch({
-            type: GET_STORE_SETUP_SUCCESS,
-            payloadStoreData: data,
-        });
-    } catch (error) {
-        dispatch({
-            type: GET_STORE_SETUP_FAIL,
-            payloadStoreData: error.response?.data?.message || error.message,
-        });
-    }
 };

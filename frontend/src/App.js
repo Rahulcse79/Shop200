@@ -1,85 +1,24 @@
-import WebFont from 'webfontloader';
-import Footer from './components/Layouts/Footer/Footer';
-import Header from './components/Layouts/Header/Header';
-import Login from './components/User/Login';
-import Register from './components/User/Register';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { loadUser } from './actions/userAction';
-import { loadSeller } from './actions/SellerAction';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import UpdateProfile from './components/User/UpdateProfile';
-import UpdatePassword from './components/User/UpdatePassword';
-import ForgotPassword from './components/User/ForgotPassword';
-import ResetPassword from './components/User/ResetPassword';
-import Account from './components/User/Account';
-import ProtectedRoute from './Routes/ProtectedRoute';
-import Home from './components/Home/Home';
-import ProductDetails from './components/ProductDetails/ProductDetails';
-import Products from './components/Products/Products';
-import Cart from './components/Cart/Cart';
-import Shipping from './components/Cart/Shipping';
-import OrderConfirm from './components/Cart/OrderConfirm';
-import Payment from './components/Cart/Payment';
-import OrderStatus from './components/Cart/OrderStatus';
-import OrderSuccess from './components/Cart/OrderSuccess';
-import MyOrders from './components/Order/MyOrders';
-import OrderDetails from './components/Order/OrderDetails';
-import Dashboard from './components/Admin/Dashboard';
-import MainData from './components/Admin/MainData';
-import OrderTable from './components/Admin/OrderTable';
-import UpdateOrder from './components/Admin/UpdateOrder';
-import ProductTable from './components/Admin/ProductTable';
-import NewProduct from './components/Admin/NewProduct';
-import UpdateProduct from './components/Admin/UpdateProduct';
-import UserTable from './components/Admin/UserTable';
-import UpdateUser from './components/Admin/UpdateUser';
-import ReviewsTable from './components/Admin/ReviewsTable';
-import Wishlist from './components/Wishlist/Wishlist';
-import NotFound from './components/NotFound';
-import DownloadAppPage from "./components/Temp_pages/DownloadAPPPage";
-import GiftCards from "./components/Temp_pages/GiftCards"
-import HelpCenter from "./components/Temp_pages/HelpCenter";
-import SellOnShop200 from "./components/Seller/SellOnShop200";
-import OTP from "./components/User/OTP";
-import SellerLogin from "./components/Seller/SellerLogin";
-import SellerOTPBasedLogin from "./components/Seller/SellerOTPBasedLogin";
-import SellerRegister from "./components/Seller/SellerRegister";
-import SellerForgotPassword from "./components/Seller/SellerForgotPassword";
-import SellerResetPassword from "./components/Seller/SellerResetPassword";
-import SellerDashboard from "./components/Seller/SellerDashBoard";
-import { SellerProtectedRoute, SellerOnBoardingProtectedRoute } from './Routes/SellerProtectedRoute';
-import CreateStore from './components/Seller/OnBoarding/CreateStore';
-import SellerBankAccountADDForm from './components/Seller/OnBoarding/BankAccountSetup';
-import BusinessInfo from './components/Seller/OnBoarding/BusinessInformation';
-import DocumentUpload from './components/Seller/OnBoarding/DocumentUpload';
-import SellerVerification from './components/Seller/OnBoarding/Verification';
-import ReadyToSell from './components/Seller/OnBoarding/ReadyToSell';
-import SellerAddProducts from './components/Seller/Products/AddProducts';
-import SellerProtectedDashboard from './components/Seller/Products/Dashboard';
-import SellerProducts from './components/Seller/Products/Products';
-import SellerUpdateProfile from './components/Seller/UpdateProfile';
-import SellerEditStoreInfo from './components/Seller/SellerEditStoreInfo';
+import * as Imports from './Imports';
 
 function App() {
 
-  const dispatch = useDispatch();
-  const { pathname } = useLocation();
+  const dispatch = Imports.useDispatch();
+  const { pathname } = Imports.useLocation();
 
-  useEffect(() => {
-    WebFont.load({
+  Imports.useEffect(() => {
+    Imports.WebFont.load({
       google: {
         families: ["Roboto:300,400,500,600,700"]
       },
     });
   });
 
-  useEffect(() => {
-    dispatch(loadUser());
-    dispatch(loadSeller());
+  Imports.useEffect(() => {
+    dispatch(Imports.loadUser());
+    dispatch(Imports.loadSeller());
   }, [dispatch]);
 
-  useEffect(() => {
+  Imports.useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
@@ -96,251 +35,250 @@ function App() {
 
   return (
     <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <Imports.Header />
+      <Imports.Routes>
+        <Imports.Route path="/" element={<Imports.Home />} />
+        <Imports.Route path="/login" element={<Imports.Login />} />
+        <Imports.Route path="/register" element={<Imports.Register />} />
 
-        <Route path="/downloadapp" element={<DownloadAppPage />} />
-        <Route path="/giftCards" element={<GiftCards />} />
-        <Route path="/helpCenter" element={<HelpCenter />} />
+        <Imports.Route path="/downloadapp" element={<Imports.DownloadAppPage />} />
+        <Imports.Route path="/giftCards" element={<Imports.GiftCards />} />
+        <Imports.Route path="/helpCenter" element={<Imports.HelpCenter />} />
 
-        <Route path="/seller/home" element={<SellOnShop200 />} />
-        <Route path="/seller/login" element={<SellerLogin />} />
-        <Route path="/seller/otp/based/login" element={<SellerOTPBasedLogin />} />
-        <Route path="/seller/register" element={<SellerRegister />} />
-        <Route path="/seller/forgot" element={<SellerForgotPassword />} />
-        <Route path="/password/seller/reset/:token" element={<SellerResetPassword />} />
+        <Imports.Route path="/seller/home" element={<Imports.SellOnShop200 />} />
+        <Imports.Route path="/seller/login" element={<Imports.SellerLogin />} />
+        <Imports.Route path="/seller/otp/based/login" element={<Imports.SellerOTPBasedLogin />} />
+        <Imports.Route path="/seller/register" element={<Imports.SellerRegister />} />
+        <Imports.Route path="/seller/forgot" element={<Imports.SellerForgotPassword />} />
+        <Imports.Route path="/password/seller/reset/:token" element={<Imports.SellerResetPassword />} />
 
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/:keyword" element={<Products />} />
+        <Imports.Route path="/product/:id" element={<Imports.ProductDetails />} />
+        <Imports.Route path="/products" element={<Imports.Products />} />
+        <Imports.Route path="/products/:keyword" element={<Imports.Products />} />
 
-        <Route path="/cart" element={<Cart />} />
+        <Imports.Route path="/cart" element={<Imports.Cart />} />
 
         {/* Seller route */}
-        <Route path="/seller/dashboard" element={
-          <SellerProtectedRoute>
-            <SellerDashboard />
-          </SellerProtectedRoute>
-        } ></Route>
+        <Imports.Route path="/seller/dashboard" element={
+          <Imports.SellerProtectedRoute>
+            <Imports.SellerDashboard />
+          </Imports.SellerProtectedRoute>
+        } ></Imports.Route>
 
-        <Route path="/seller/edit/store" element={
-          <SellerProtectedRoute>
-            <SellerEditStoreInfo />
-          </SellerProtectedRoute>
-        } ></Route>
+        <Imports.Route path="/seller/edit/store" element={
+          <Imports.SellerProtectedRoute>
+            <Imports.SellerEditStoreInfo />
+          </Imports.SellerProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/create-store" element={
-        < SellerOnBoardingProtectedRoute >
-          <CreateStore />
-        </SellerOnBoardingProtectedRoute>
-      } ></Route >
+        <Imports.Route path="/seller/create-store" element={
+          < Imports.SellerOnBoardingProtectedRoute >
+            <Imports.CreateStore />
+          </Imports.SellerOnBoardingProtectedRoute>
+        } ></Imports.Route >
 
-      <Route path="/seller/bank-account" element={
-        < SellerOnBoardingProtectedRoute >
-          <SellerBankAccountADDForm />
-        </ SellerOnBoardingProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/bank-account" element={
+          < Imports.SellerOnBoardingProtectedRoute >
+            <Imports.SellerBankAccountADDForm />
+          </ Imports.SellerOnBoardingProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/business-info" element={
-        < SellerOnBoardingProtectedRoute >
-          <BusinessInfo />
-        </ SellerOnBoardingProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/business-info" element={
+          < Imports.SellerOnBoardingProtectedRoute >
+            <Imports.BusinessInfo />
+          </ Imports.SellerOnBoardingProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/upload-documents" element={
-        < SellerOnBoardingProtectedRoute >
-          <DocumentUpload />
-        </ SellerOnBoardingProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/upload-documents" element={
+          < Imports.SellerOnBoardingProtectedRoute >
+            <Imports.DocumentUpload />
+          </ Imports.SellerOnBoardingProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/verification" element={
-        < SellerOnBoardingProtectedRoute >
-          <SellerVerification />
-        </ SellerOnBoardingProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/verification" element={
+          < Imports.SellerOnBoardingProtectedRoute >
+            <Imports.SellerVerification />
+          </ Imports.SellerOnBoardingProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/ready-to-sell" element={
-        < SellerOnBoardingProtectedRoute >
-          <ReadyToSell />
-        </ SellerOnBoardingProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/ready-to-sell" element={
+          < Imports.SellerOnBoardingProtectedRoute >
+            <Imports.ReadyToSell />
+          </ Imports.SellerOnBoardingProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/new_product" element={
-        < SellerProtectedRoute >
-          <SellerProtectedDashboard activeTab={3}>
-            <SellerAddProducts />
-          </SellerProtectedDashboard>
-        </ SellerProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/new_product" element={
+          < Imports.SellerProtectedRoute >
+            <Imports.SellerProtectedDashboard activeTab={3}>
+              <Imports.SellerAddProducts />
+            </Imports.SellerProtectedDashboard>
+          </ Imports.SellerProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/products" element={
-        < SellerProtectedRoute >
-          <SellerProtectedDashboard activeTab={2}>
-            <SellerProducts />
-          </SellerProtectedDashboard>
-        </ SellerProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/products" element={
+          < Imports.SellerProtectedRoute >
+            <Imports.SellerProtectedDashboard activeTab={2}>
+              <Imports.SellerProducts />
+            </Imports.SellerProtectedDashboard>
+          </ Imports.SellerProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/seller/dashboard/update" element={
-        < SellerProtectedRoute >
-          <SellerUpdateProfile />
-        </ SellerProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/seller/dashboard/update" element={
+          < Imports.SellerProtectedRoute >
+            <Imports.SellerUpdateProfile />
+          </ Imports.SellerProtectedRoute>
+        } ></Imports.Route>
 
 
-      <Route path="/shipping" element={
-        <ProtectedRoute>
-          <Shipping />
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/shipping" element={
+          <Imports.ProtectedRoute>
+            <Imports.Shipping />
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/order/confirm" element={
-        <ProtectedRoute>
-          <OrderConfirm />
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/order/confirm" element={
+          <Imports.ProtectedRoute>
+            <Imports.OrderConfirm />
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/process/payment" element={
-        <ProtectedRoute>
-          {/* // stripeApiKey && ( */}
-          {/* // <Elements stripe={loadStripe(stripeApiKey)}> */}
-          <Payment />
-          {/* // </Elements> */}
-          {/* ) */}
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/process/payment" element={
+          <Imports.ProtectedRoute>
+            {/* // stripeApiKey && ( */}
+            {/* // <Elements stripe={loadStripe(stripeApiKey)}> */}
+            <Imports.Payment />
+            {/* // </Elements> */}
+            {/* ) */}
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/orders/success" element={<OrderSuccess success={true} />} />
-      <Route path="/orders/failed" element={<OrderSuccess success={false} />} />
-      {/* order process */}
+        <Imports.Route path="/orders/success" element={<Imports.OrderSuccess success={true} />} />
+        {/* order process */}
 
-      <Route path="/order/:id" element={
-        <ProtectedRoute>
-          <OrderStatus />
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/order/:id" element={
+          <Imports.ProtectedRoute>
+            <Imports.OrderStatus />
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/orders" element={
-        <ProtectedRoute>
-          <MyOrders />
-        </ProtectedRoute>
-      }></Route>
+        <Imports.Route path="/orders" element={
+          <Imports.ProtectedRoute>
+            <Imports.MyOrders />
+          </Imports.ProtectedRoute>
+        }></Imports.Route>
 
-      <Route path="/order_details/:id" element={
-        <ProtectedRoute>
-          <OrderDetails />
-        </ProtectedRoute>
-      }></Route>
+        <Imports.Route path="/order_details/:id" element={
+          <Imports.ProtectedRoute>
+            <Imports.OrderDetails />
+          </Imports.ProtectedRoute>
+        }></Imports.Route>
 
-      <Route path="/account" element={
-        <ProtectedRoute>
-          <Account />
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/account" element={
+          <Imports.ProtectedRoute>
+            <Imports.Account />
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/account/update" element={
-        <ProtectedRoute>
-          <UpdateProfile />
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/account/update" element={
+          <Imports.ProtectedRoute>
+            <Imports.UpdateProfile />
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/password/update" element={
-        <ProtectedRoute>
-          <UpdatePassword />
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/password/update" element={
+          <Imports.ProtectedRoute>
+            <Imports.UpdatePassword />
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/password/forgot" element={<ForgotPassword />} />
+        <Imports.Route path="/password/forgot" element={<Imports.ForgotPassword />} />
 
-      <Route path="/OTP" element={<OTP />} />
+        <Imports.Route path="/OTP" element={<Imports.OTP />} />
 
-      <Route path="/password/reset/:token" element={<ResetPassword />} />
+        <Imports.Route path="/password/reset/:token" element={<Imports.ResetPassword />} />
 
-      <Route path="/wishlist" element={
-        <ProtectedRoute>
-          <Wishlist />
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/wishlist" element={
+          <Imports.ProtectedRoute>
+            <Imports.Wishlist />
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/dashboard" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={0}>
-            <MainData />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/dashboard" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={0}>
+              <Imports.MainData />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/orders" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={1}>
-            <OrderTable />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/orders" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={1}>
+              <Imports.OrderTable />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/order/:id" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={1}>
-            <UpdateOrder />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/order/:id" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={1}>
+              <Imports.UpdateOrder />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/products" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={2}>
-            <ProductTable />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/products" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={2}>
+              <Imports.ProductTable />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/new_product" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={3}>
-            <NewProduct />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/new_product" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={3}>
+              <Imports.NewProduct />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/product/:id" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={2}>
-            <UpdateProduct />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/product/:id" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={2}>
+              <Imports.UpdateProduct />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/users" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={4}>
-            <UserTable />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/users" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={4}>
+              <Imports.UserTable />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/user/:id" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={4}>
-            <UpdateUser />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/user/:id" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={4}>
+              <Imports.UpdateUser />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="/admin/reviews" element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard activeTab={5}>
-            <ReviewsTable />
-          </Dashboard>
-        </ProtectedRoute>
-      } ></Route>
+        <Imports.Route path="/admin/reviews" element={
+          <Imports.ProtectedRoute isAdmin={true}>
+            <Imports.Dashboard activeTab={5}>
+              <Imports.ReviewsTable />
+            </Imports.Dashboard>
+          </Imports.ProtectedRoute>
+        } ></Imports.Route>
 
-      <Route path="*" element={<NotFound />}></Route>
+        <Imports.Route path="*" element={<Imports.NotFound />}></Imports.Route>
 
-    </Routes >
-      <Footer />
+      </Imports.Routes >
+      <Imports.Footer />
     </>
   );
 }
